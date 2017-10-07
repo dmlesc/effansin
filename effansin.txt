@@ -1,0 +1,112 @@
+==========
+ effansin
+==========
+
+netcat 
+
+
+tcpdump
+  Site: http://www.tcpdump.org/
+  Documentation: http://www.tcpdump.org/manpages/tcpdump.1.html
+  
+  See which interfaces are available:
+  # tcpdump -D
+  
+  Specify an interface:
+  # tcpdump -i 1
+  or
+  # tcpdump -i eth0
+  
+  Disable DNS queries (-n flag)
+  # tcpdump -ni 1
+  
+  TCP Flags
+    S - SYN packet
+    . - ACK packet
+    R - Reset
+      no connection yet = "connection refused"
+      in middle of connection = "immediately throw away this connection, something has gone wrong"
+    F - FIN
+      connection is terminating gracefully
+    U - urgent
+    W/E - congestion control
+    P - push
+  
+  BCP - Berkeley Packet Filter - extensive filtering language
+  
+  ARP traffic
+  # tcpdump -ni 1 arp
+  
+  MAC address
+  # tcpdump -ni 1 ether host 9C:B6:54:1C:D4:E3
+  
+  AND operator
+  # tcpdump -ni 1 arp and ether host 9C-B6-54-1C-D4-E3
+  
+  TCP/IP traffic
+  # tcpdump -ni 1 ip
+  
+  IP by host
+  # tcpdump -ni 1 ip host mail.michaelwlucas.com
+  
+  OR operator
+  # tcpdump –ni 1 ip host 203.0.113.26 or 203.0.113.15
+  
+  with parenthesis (must escape)
+  # tcpdump -ni 1 ip host 203.0.113.64 and \(ip host 203.0.113.26 or 203.0.113.15\)
+  
+  or quotes
+  # tcpdump -ni 1 'ip host 203.0.113.64 and (ip host 203.0.113.26 or 203.0.113.15)'
+  
+  Nextowrk range - 'net' keyword
+  # tcpdump -ni 1 ip net 192.0.2.0/24
+  
+  NOT operator
+  # tcpdump -ni 1 not ip host mail.michaelwlucas.com
+  # tcpdump -ni 1 ip net 192.0.2.0/24 and not ip host 192.0.2.88
+  
+  Only traffic that leaves local network
+  # tcpdump -ni 1 ip and not ip net 192.0.2.0/24
+  
+  UDP traffic
+  # tcpdump –ni 1 udp
+  
+  Port
+  # tcpdump -ni 1 tcp port 822
+  
+  Multiple ports
+  # tcpdump -ni 1 tcp and \(port 25 or 587\)
+  
+  From a specific client
+  # tcpdump -i 1 ip host 198.51.100.9 and \(tcp port 80 or 443\)
+  
+  Capture files
+    binary-encoded
+      run hexdump or tcpdump -vv to decode or open in wireshark
+    -w filename.pcap
+    -v  #show how many bytes captured
+  
+  Save to 'web.pcap'
+  # tcpdump -w web.pcap -ni 1 ip host www and `(port 80 or 443`)
+  
+  Read a capture file
+  # tcpdump -r web.pcap
+  
+  Read a capture file, disable DNS lookup
+  # tcpdump -nr web.pcap
+  
+  Read a capture file, filter for port
+  # tcpdump -nr web.pcap port 80
+  
+  Not web traffic
+  # tcpdump –nr web.pcap not \(port 80 or 443\)
+  
+wireshark
+
+
+
+books
+  The Practice of Network Security Monitoring: Understanding Incident Detection and Response
+  The Tao of Network Security Monitoring: Beyond Intrusion Detection
+  Real Digital Forensics: Computer Security and Incident Response
+  Extrusion Detection: Security Monitoring for Internal Intrusions
