@@ -2,8 +2,16 @@
  effansin
 ==========
 
-netcat 
+books
+  The Practice of Network Security Monitoring: Understanding Incident Detection and Response
+  The Tao of Network Security Monitoring: Beyond Intrusion Detection
+  Real Digital Forensics: Computer Security and Incident Response
+  Extrusion Detection: Security Monitoring for Internal Intrusions
+  The Book of PF
+  Practical Packet Analysis
 
+
+netcat 
 
 tcpdump
   Site: http://www.tcpdump.org/
@@ -101,12 +109,168 @@ tcpdump
   Not web traffic
   # tcpdump –nr web.pcap not \(port 80 or 443\)
   
+  Quick (quiet?) output - Print less protocol information
+  -q
+  
+  Print a delta (micro-second resolution) between current and previous line on each dump line.
+  -ttt
+  
+  Verbose (slightly more) output
+  -v
+  -vv
+  -vvv
+  
+  Don't use buffer
+  -U
+  --packet-buffered
+  
+  Print data from each packet
+  -x
+  -xx
+  -X
+  -XX
+  
+  To print the start and end packets (the SYN and FIN packets) of each TCP conversation that involves a non-local host.
+  # tcpdump 'tcp[tcpflags] & (tcp-syn|tcp-fin) != 0 and not src and dst net localnet'
+
+  
+netstat
+  Continuous  
+  # netstat -c
+  
+  with watch
+  # watch -n2 "netstat -tu"
+  
+  # netstat –tulpnc
+  
+  lsof -i
+
+  
+iftop
+  Function keys
+    s - source
+    d - destination
+    p - ports
+    shift + S - source port
+    shift + D - destination port
+    t - cycle through displays
+    
+  
 wireshark
 
 
 
-books
-  The Practice of Network Security Monitoring: Understanding Incident Detection and Response
-  The Tao of Network Security Monitoring: Beyond Intrusion Detection
-  Real Digital Forensics: Computer Security and Incident Response
-  Extrusion Detection: Security Monitoring for Internal Intrusions
+squid-cache
+  Site: http://www.squid-cache.org/ 
+  Documentation: 
+    https://help.ubuntu.com/lts/serverguide/squid.html
+    https://en.wikipedia.org/wiki/Squid_(software)
+    https://wiki.squid-cache.org/SquidFaq/CompilingSquid
+    https://wiki.squid-cache.org/ConfigExamples
+  
+  Compile from source
+    get tarball
+    extract
+    cd into extraction
+    ./configure --help | less
+    Options
+      --prefix  #install location
+        ./configure --prefix=/opt/squid/3.1.10/
+      --enable-storeio
+        ./configure --enable-storeio=ufs,aufs,coss,diskd,null
+      --enable-removal-policies
+        ./configure --enable-removal-policies=heap,lru
+      --enable-esi
+        use Edge Side Includes (http://www.esi.org) - used in accelerator mode
+      --enable-useragent-log
+        logg user agent headers
+      --enable-referer-log
+        write a referer header field
+      --disable-wccp
+        disables Cisco's Web Cache Communication Protocol (WCCP).
+      --disable-wccpv2
+        disables Cisco's WCCP version 2
+      --disable-snmp
+        disable SNMP (Simple Network Management Protocol)
+      --enable-cachemgr-hostname
+        ./configure --enable-cachemgr-hostname=squidproxy.example.com
+      --enable-ssl
+        terminate SSL connections
+      --enable-err-languages
+        ./configure --enable-err-languages='English French German'
+      --disable-http-violations
+        no tinkering with HTTP headers 
+      --enable-auth-basic
+        ./configure --enable-auth-basic=none
+      --disable-translation
+        do not present error and manual pages in a local language
+      --disable-auto-locale
+        do not provide localized error pages. error_directory tag in Squid config must be set.
+      --with-default-user
+        ./configure --with-default-user=squid
+      --with-logdir
+        change default ${prefix}/var/logs/
+        ./configure --with-logdir=/var/log/squid/
+      --with-filedescriptors
+        ./configure --with-filedescriptors=8192
+        *** also incread fd limit for user 
+          ulimit -n
+          /etc/security/limits.conf
+            username hard nofile 8192
+            username soft nofile 8192
+      --disable-internal-dns
+
+  squid.conf
+    http_port 192.0.2.25:3128
+    http_port myproxy.example.com:8080
+    http_port lan1.example.com:3128
+    http_port lan2.example.com:8081
+    
+    http_port 3128 intercept
+    http_port 8080 tproxy
+    http_port 80 accel defaultsite=website.example.com
+    
+    cache_mem 2500 MB  # bytes, KB, MB, or GB.
+    maximum_object_size_in_memory 1 MB
+    
+    cache_dir aufs
+    
+    cache_swap_low 96
+    cache_swap_high 97
+    
+    memory_replacement_policy lru
+    cache_replacement_policy heap LFUDA
+    
+    acl local_machines dst 192.0.2.0/24 198.51.100.0/24
+    cache deny local_machines
+
+    dns_nameservers 192.0.2.25 198.51.100.25
+    dns_nameservers 203.0.113.25
+    
+    hosts_file /etc/hosts
+    append_domain .example.com
+    
+    strip_query_terms off  # default on
+
+    cache_effective_user squid  # default nobody
+    
+    visible_hostname proxy.example.com
+    
+    acl special_network src 192.0.2.0/24
+    tcp_outgoing_address 198.51.100.25 special_network
+    tcp_outgoing_address 198.51.100.86
+    
+  running squid
+    squid -h
+    squid -v
+    squid -z  # create cache dirs
+    squid -f /etc/squid.minimal.conf
+    squid -k parse  # check squid.conf
+    
+  Avoid caching of local content
+    acl client_servers dst 192.0.2.0/24 198.51.100.0/24
+    acl internal_websites dstdomain .internal.example.com
+    
+    cache deny client_servers
+  cache deny internal_websites
+  cache allow all

@@ -1,0 +1,58 @@
+=======
+ Setup
+=======
+
+
+
+=========
+ ansible
+=========
+
+apt install software-properties-common
+apt-add-repository ppa:ansible/ansible
+apt update
+apt install ansible
+
+Key
+  cd ~/.ssh
+  ssh-keygen
+  chmod 400 id_*
+
+Local
+  ssh user@host
+  sudo visudo
+    user ALL=(ALL) NOPASSWD: ALL
+  sudo su
+  apt install python2.7
+  ln -s /usr/bin/python2.7 /usr/bin/python
+
+Remote
+  ssh-copy-id user@host
+
+ssh-agent bash
+ssh-add ~/.ssh/id_...
+
+
+=====
+ ZFS
+=====
+
+fdisk -l |grep dev
+wipefs -af /dev/sda
+
+apt install zfsutils-linux
+zpool create -f vol0 /dev/disk/by-id/ata-...
+zfs set compression=lz4 vol0
+zfs create vol0/opt
+zfs set mountpoint=/opt vol0/opt
+
+zpool status
+zpool list
+zfs list
+zfs get compression vol0
+zfs get compressratio
+zpool iostat vol0
+
+df -h
+
+

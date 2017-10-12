@@ -1,0 +1,12 @@
+[Unit]
+Description=node_exporter
+After=network.target
+
+[Service]
+User=root
+ExecStart=/opt/{{ node_exporter_ver }}/node_exporter -collectors.enabled diskstats,filefd,filesystem,meminfo,netdev,netstat,sockstat,stat,zfs
+WorkingDirectory=/opt/{{ node_exporter_ver }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

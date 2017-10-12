@@ -1,0 +1,26 @@
+---
+# file: roles/common/tasks/main.yml
+
+- name: install htop
+  apt:
+    name: htop
+    state: present
+
+- name: extract node_exporter tar.gz
+  unarchive:
+    src: "{{ node_exporter_ver }}.tar.gz"
+    dest: /opt/
+    owner: root
+    group: root
+- name: copy systemd node_exporter.service
+  template:
+    src: node_exporter.service.j2
+    dest: /lib/systemd/system/node_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - restart node_exporter service
+    - enable node_exporter service
+
