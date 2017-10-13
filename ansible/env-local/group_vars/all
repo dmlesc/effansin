@@ -1,1 +1,2 @@
 node_exporter_ver: node_exporter-0.15.0.linux-amd64
+prometheus_ver: prometheus-1.8.0.linux-amd64
