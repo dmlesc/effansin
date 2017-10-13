@@ -274,3 +274,35 @@ squid-cache
     cache deny client_servers
   cache deny internal_websites
   cache allow all
+
+
+logstash
+  install java 8 or OpenJDK
+  https://www.elastic.co/downloads/logstash
+    Version: 5.6.3
+
+  Inputs
+    file: reads from a file on the filesystem, much like the UNIX command tail -0F
+    syslog: listens on the well-known port 514 for syslog messages and parses according to the RFC3164 format
+    redis: reads from a redis server, using both redis channels and redis lists. Redis is often used as a "broker" in a centralized Logstash installation, which queues Logstash events from remote Logstash "shippers".
+    beats: processes events sent by Filebeat.
+    
+    cloudwatch
+    elasticsearch
+    eventlong - windows
+    kinesis
+    s3
+    varnishlog
+    wmi
+    
+
+filebeat
+  filebeat.yml
+    filebeat.prospectors:
+    - input_type: log
+      paths:
+        - /var/log/*.log 
+      fields:
+        type: syslog 
+    output.logstash:
+      hosts: ["localhost:5043"]
