@@ -1,5 +1,5 @@
 ---
-# file: prometheus.yml
+# file: grafana-role.yml
 
 - hosts: grafana
   become: true
