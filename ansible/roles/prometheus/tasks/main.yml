@@ -7,6 +7,7 @@
     dest: /opt/
     owner: root
     group: root
+
 - name: copy prometheus.yml
   template:
     src: prometheus.yml
@@ -17,6 +18,7 @@
     backup: yes
   notify:
     - restart prometheus service
+
 - name: copy systemd prometheus.service
   template:
     src: prometheus.service.j2

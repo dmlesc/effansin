@@ -1,5 +1,5 @@
 ---
-# file: prometheus.yml
+# file: prometheus-role.yml
 
 - hosts: prometheus
   become: true

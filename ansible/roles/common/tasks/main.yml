@@ -12,6 +12,7 @@
     dest: /opt/
     owner: root
     group: root
+
 - name: copy systemd node_exporter.service
   template:
     src: node_exporter.service.j2
@@ -21,6 +22,6 @@
     mode: 0644
     backup: no
   notify:
-    - restart node_exporter service
     - enable node_exporter service
+    - restart node_exporter service
 
