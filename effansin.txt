@@ -306,3 +306,13 @@ filebeat
         type: syslog 
     output.logstash:
       hosts: ["localhost:5043"]
+      
+
+grafana
+  [dashboards.json]
+  enabled: true
+  path: /adf/asdf
+  
+  [metrics]
+  enabled  # /api/metrics
+  

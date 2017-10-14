@@ -55,4 +55,20 @@ zpool iostat vol0
 
 df -h
 
+=========
+ grafana
+=========
 
+http://fnsn0:3000/login
+  admin > Profile > Change Password
+  Add data source
+    Config
+      Name: prometheus
+      Type: Prometheus
+      Url: http://localhost:9090
+      Access: proxy
+    Dashboards
+      Prometheus Stats  >  Import
+    
+    
+    

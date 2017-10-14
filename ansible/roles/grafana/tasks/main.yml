@@ -1,0 +1,20 @@
+---
+# file: roles/grafana/tasks/main.yml
+
+- name: extract grafana tar.gz
+  unarchive:
+    src: "{{ grafana_ver }}.linux-x64.tar.gz"
+    dest: /opt/
+    owner: root
+    group: root
+- name: copy systemd grafana.service
+  template:
+    src: grafana.service.j2
+    dest: /lib/systemd/system/grafana.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - enable grafana service
+    - restart grafana service

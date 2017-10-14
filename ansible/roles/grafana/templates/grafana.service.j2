@@ -1,0 +1,12 @@
+[Unit]
+Description=grafana
+After=network.target
+
+[Service]
+User=root
+ExecStart=/opt/{{ grafana_ver }}/bin/grafana-server web
+WorkingDirectory=/opt/{{ grafana_ver }}
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

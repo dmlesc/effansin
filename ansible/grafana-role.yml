@@ -1,0 +1,7 @@
+---
+# file: prometheus.yml
+
+- hosts: grafana
+  become: true
+  roles:
+    - grafana
