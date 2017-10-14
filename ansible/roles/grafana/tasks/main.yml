@@ -8,6 +8,14 @@
     owner: root
     group: root
 
+- name: copy custom.ini file
+  copy:
+    src: custom.ini
+    dest: /opt/{{ grafana_ver }}/conf/custom.ini
+    owner: root
+    group: root
+    mode: 0644
+
 - name: copy systemd grafana.service
   template:
     src: grafana.service.j2
@@ -20,13 +28,4 @@
     - enable grafana service
     - restart grafana service
 
-- name: copy overview dashboard
-  template:
-    src: dasboard-overview.json.j2
-    dest: /opt/{{ promegrafana_vertheus_ver }}/dashboards/dasboard-overview.json
-    owner: root
-    group: root
-    mode: 0644
-    backup: yes
-  notify:
-    - restart grafana service
+
