@@ -18,3 +18,13 @@
   notify:
     - enable grafana service
     - restart grafana service
+- name: copy overview dashboard
+  template:
+    src: dasboard-overview.json.j2
+    dest: /opt/{{ promegrafana_vertheus_ver }}/dashboards/dasboard-overview.json
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify:
+    - restart grafana service
