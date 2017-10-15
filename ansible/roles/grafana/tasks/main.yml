@@ -15,6 +15,9 @@
     owner: root
     group: root
     mode: 0644
+    backup: no
+  notify:
+    - restart grafana service
 
 - name: copy systemd grafana.service
   template:
