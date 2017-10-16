@@ -1,0 +1,44 @@
+---
+# file: roles/elasticsearch/tasks/main.yml
+
+- name: install default-jre
+  apt:
+    name: default-jre
+    state: present
+
+- name: create elasticsearch user
+  user:
+    name: elasticsearch
+    password: $6$hHW/.C5XD$xv.hTpKCKWPoa4yT.wOxVtvADKfNNYTZjhwmsoG5DZiNH3A3mar2rHCvJsJnkobmlb73qTLsr6ZWRs7umTL4P0
+    createhome: no
+    state: present
+
+- name: extract elasticsearch tar.gz
+  unarchive:
+    src: "{{ elasticsearch_ver }}.tar.gz"
+    dest: /opt/
+    owner: elasticsearch
+    group: elasticsearch
+
+- name: copy elasticsearch.yml
+  template:
+    src: elasticsearch.yml.j2
+    dest: /opt/{{ elasticsearch_ver }}/config/elasticsearch.yml
+    owner: elasticsearch
+    group: elasticsearch
+    mode: 0644
+    backup: yes
+  notify:
+    - restart elasticsearch service
+
+- name: copy systemd elasticsearch.service
+  template:
+    src: elasticsearch.service.j2
+    dest: /lib/systemd/system/elasticsearch.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - enable elasticsearch service
+    - restart elasticsearch service

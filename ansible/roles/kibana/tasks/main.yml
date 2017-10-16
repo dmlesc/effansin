@@ -1,0 +1,44 @@
+---
+# file: roles/kibana/tasks/main.yml
+
+- name: install default-jre
+  apt:
+    name: default-jre
+    state: present
+
+- name: create kibana user
+  user:
+    name: kibana
+    password: $6$hHW/.C5XD$xv.hTpKCKWPoa4yT.wOxVtvADKfNNYTZjhwmsoG5DZiNH3A3mar2rHCvJsJnkobmlb73qTLsr6ZWRs7umTL4P0
+    createhome: no
+    state: present
+
+- name: extract kibana tar.gz
+  unarchive:
+    src: "{{ kibana_ver }}.tar.gz"
+    dest: /opt/
+    owner: kibana
+    group: kibana
+
+- name: copy kibana.yml
+  template:
+    src: kibana.yml.j2
+    dest: /opt/{{ kibana_ver }}/config/kibana.yml
+    owner: kibana
+    group: kibana
+    mode: 0644
+    backup: yes
+  notify:
+    - restart kibana service
+
+- name: copy systemd kibana.service
+  template:
+    src: kibana.service.j2
+    dest: /lib/systemd/system/kibana.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - enable kibana service
+    - restart kibana service

@@ -6,3 +6,9 @@ fnsn0
 
 [grafana]
 fnsn0
+
+[elasticsearch]
+fnsn0
+
+[kibana]
+fnsn0

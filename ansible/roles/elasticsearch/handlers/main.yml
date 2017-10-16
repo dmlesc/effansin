@@ -1,0 +1,19 @@
+---
+# file: roles/elasticsearch/handlers/main.yml
+
+- name: enable elasticsearch service
+  systemd:
+    daemon_reload: yes
+    name: elasticsearch
+    enabled: yes
+    masked: no
+
+- name: start elasticsearch service
+  systemd:
+    name: elasticsearch
+    state: started
+
+- name: restart elasticsearch service
+  systemd:
+    name: elasticsearch
+    state: restarted
