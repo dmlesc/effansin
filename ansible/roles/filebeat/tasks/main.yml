@@ -1,0 +1,41 @@
+---
+# file: roles/filebeat/tasks/main.yml
+
+- name: install default-jre
+  apt:
+    name: default-jre
+    state: present
+
+- name: install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Add Elasticsearch public signing key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: add Elastic repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    state: present
+    filename: '/etc/apt/sources.list.d/elastic-5.x.list'
+
+- name: install filebeat
+  apt:
+    update_cache: yes
+    name: filebeat
+    state: present
+  notify:
+    - enable filebeat service
+
+- name: copy filebeat.yml
+  template:
+    src: filebeat.yml.j2
+    dest: /etc/filebeat/filebeat.yml
+    owner: root
+    group: root
+    mode: 0600
+  notify:
+    - restart filebeat service

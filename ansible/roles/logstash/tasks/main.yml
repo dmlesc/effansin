@@ -1,0 +1,39 @@
+---
+# file: roles/logstash/tasks/main.yml
+
+- name: install default-jre
+  apt:
+    name: default-jre
+    state: present
+
+- name: install apt-transport-https
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Add Elasticsearch public signing key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: add Logstash repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    state: present
+    filename: '/etc/apt/sources.list.d/elastic-5.x.list'
+
+- name: install logstash
+  apt:
+    update_cache: yes
+    name: logstash
+    state: present
+
+- name: copy logstash-beats.yml
+  template:
+    src: logstash-beats.yml.j2
+    dest: /etc/logstash/conf.d/logstash-beats.yml
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart logstash service

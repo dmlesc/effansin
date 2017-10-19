@@ -1,0 +1,7 @@
+---
+# file: filebeat-role.yml
+
+- hosts: filebeat
+  become: true
+  roles:
+    - filebeat

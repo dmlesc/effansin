@@ -42,3 +42,22 @@
   notify:
     - enable elasticsearch service
     - restart elasticsearch service
+
+- name: extract elasticsearch_exporter tar.gz
+  unarchive:
+    src: "{{ elasticsearch_exporter_ver }}.tar.gz"
+    dest: /opt/
+    owner: root
+    group: root
+
+- name: copy systemd elasticsearch_exporter.service
+  template:
+    src: elasticsearch_exporter.service.j2
+    dest: /lib/systemd/system/elasticsearch_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - enable elasticsearch_exporter service
+    - restart elasticsearch_exporter service

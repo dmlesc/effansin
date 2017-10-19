@@ -1,0 +1,7 @@
+---
+# file: roles/logstash/handlers/main.yml
+
+- name: restart logstash service
+  systemd:
+    name: logstash
+    state: restarted

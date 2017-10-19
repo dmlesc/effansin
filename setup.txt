@@ -79,6 +79,24 @@ nano /etc/sysctl.conf
 
 curl http://fnsn0:9200
 
+curl -XPUT 'http://fnsn0:9200/.kibana/_settings?pretty' -H 'Content-Type: application/json' -d'
+{
+    "index" : {
+        "number_of_replicas" : 0
+    }
+}'
+
+curl -XPUT 'http://fnsn0:9200/filebeat-*/_settings?pretty' -H 'Content-Type: application/json' -d'
+{
+    "index" : {
+        "number_of_replicas" : 0
+    }
+}'
+
+http://fnsn0:9200/_cat/indices?v
+
+
+
 ========
  kibana
 ========

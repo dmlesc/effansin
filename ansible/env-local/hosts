@@ -12,3 +12,9 @@ fnsn0
 
 [kibana]
 fnsn0
+
+[logstash]
+fnsn0
+
+[filebeat]
+fnsn0
