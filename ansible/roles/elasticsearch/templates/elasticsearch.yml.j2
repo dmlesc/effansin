@@ -1,6 +1,4 @@
 cluster.name: {{ ansible_hostname }}
 node.name: {{ ansible_hostname }}
-path.conf: /opt/{{ elasticsearch_ver }}/config
-path.data: /opt/{{ elasticsearch_ver }}/data
-path.logs: /opt/{{ elasticsearch_ver }}/logs
+path.data: /vol0/es_data
 network.host: {{ ansible_default_ipv4.address }}

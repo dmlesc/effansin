@@ -74,6 +74,10 @@ http://fnsn0:3000/login
  elasticsearch
 =============== 
 
+zfs create vol0/es_data
+chown elasticsearch:elasticsearch /vol0/es_data/
+
+
 nano /etc/sysctl.conf
   vm.max_map_count=262144
 

@@ -6,41 +6,39 @@
     name: default-jre
     state: present
 
-- name: create elasticsearch user
-  user:
-    name: elasticsearch
-    password: $6$hHW/.C5XD$xv.hTpKCKWPoa4yT.wOxVtvADKfNNYTZjhwmsoG5DZiNH3A3mar2rHCvJsJnkobmlb73qTLsr6ZWRs7umTL4P0
-    createhome: no
+- name: install apt-transport-https
+  apt:
+    name: apt-transport-https
     state: present
 
-- name: extract elasticsearch tar.gz
-  unarchive:
-    src: "{{ elasticsearch_ver }}.tar.gz"
-    dest: /opt/
-    owner: elasticsearch
-    group: elasticsearch
+- name: Add Elasticsearch public signing key
+  apt_key:
+    url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+    state: present
+
+- name: add Elastic repository
+  apt_repository:
+    repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    state: present
+    filename: '/etc/apt/sources.list.d/elastic-5.x.list'
+
+- name: install elasticsearch
+  apt:
+    update_cache: yes
+    name: elasticsearch
+    state: present
+  notify:
+    - enable elasticsearch service
 
 - name: copy elasticsearch.yml
   template:
     src: elasticsearch.yml.j2
-    dest: /opt/{{ elasticsearch_ver }}/config/elasticsearch.yml
-    owner: elasticsearch
-    group: elasticsearch
-    mode: 0644
-    backup: yes
-  notify:
-    - restart elasticsearch service
-
-- name: copy systemd elasticsearch.service
-  template:
-    src: elasticsearch.service.j2
-    dest: /lib/systemd/system/elasticsearch.service
+    dest: /etc/elasticsearch/elasticsearch.yml
     owner: root
     group: root
     mode: 0644
-    backup: no
+    backup: yes
   notify:
-    - enable elasticsearch service
     - restart elasticsearch service
 
 - name: extract elasticsearch_exporter tar.gz
