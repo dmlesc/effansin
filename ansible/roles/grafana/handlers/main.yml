@@ -1,19 +1,19 @@
 ---
 # file: roles/grafana/handlers/main.yml
 
-- name: enable grafana service
+- name: enable grafana-server service
   systemd:
     daemon_reload: yes
-    name: grafana
+    name: grafana-server
     enabled: yes
     masked: no
 
-- name: start grafana service
+- name: start grafana-server service
   systemd:
-    name: grafana
+    name: grafana-server
     state: started
 
-- name: restart grafana service
+- name: restart grafana-server service
   systemd:
-    name: grafana
+    name: grafana-server
     state: restarted
