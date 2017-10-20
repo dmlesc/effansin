@@ -1,0 +1,11 @@
+=======
+ Tasks
+=======
+
+Logging to filebeat > logstash > elasticsearch
+  grafana
+  kibana
+  elasticsearch
+
+Enable bridge
+
