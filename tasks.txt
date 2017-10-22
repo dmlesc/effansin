@@ -7,5 +7,19 @@ Logging to filebeat > logstash > elasticsearch
   kibana
   elasticsearch
 
+ES Templates
+  syslog
+  grafana
+  kibanan
+  elasticsearch
+  
 Enable bridge
+
+Install Squid Proxy
+  Logging to ES
+  
+Research wireshark/pack anals
+
+elastcpdump
+dumpasticap
 
