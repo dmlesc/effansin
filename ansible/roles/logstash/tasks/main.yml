@@ -35,5 +35,5 @@
     owner: root
     group: root
     mode: 0644
-  notify:
-    - restart logstash service
+#  notify:
+#    - restart logstash service

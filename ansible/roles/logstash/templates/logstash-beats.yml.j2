@@ -5,14 +5,28 @@ input {
   }
 }
 filter {
-   grok {
-      match => { "message" => ["%{SYSLOGTIMESTAMP:[system][syslog][timestamp]} %{SYSLOGHOST:[system][syslog][hostname]} %{DATA:[system][syslog][program]}(?:\[%{POSINT:[system][syslog][pid]}\])?: %{GREEDYMULTILINE:[system][syslog][message]}"] }
-      pattern_definitions => { "GREEDYMULTILINE" => "(.|\n)*" }
-      remove_field => "message"
-   }
-   date {
-      match => [ "[system][syslog][timestamp]", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
-   }
+  grok {
+    match => { "message" => ["%{SYSLOGTIMESTAMP:[syslog_timestamp]} %{SYSLOGHOST:[hostname]} %{DATA:[program]}(?:\[%{POSINT:[pid]}\])?: %{GREEDYMULTILINE:[syslog_message]}"] }
+    pattern_definitions => { "GREEDYMULTILINE" => "(.|\n)*" }
+  }
+  date {
+    match => [ "[timestamp]", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+  }
+  if [program] == "grafana-server" {
+    dissect {
+      mapping => {
+        "syslog_message" => "t=%{t} lvl=%{lvl} msg=%{msg} %{+msg} logger=%{logger} userId=%{userId} orgId=%{orgId} uname=%{uname} method=%{method} path=%{path} status=%{status} remote_addr=%{remote_addr} time_ms=%{time_ms} size=%{size} referer=%{referer}"
+      }
+    }
+  }
+  if [program] == "kibana" {
+    json {
+      source => "syslog_message"
+    }
+  }
+  mutate {
+    remove_field => [ "message", "type", "input_type", "offset", "hostname", "[beat]" ]
+  }
 }
 output {
   elasticsearch {

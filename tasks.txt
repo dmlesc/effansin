@@ -2,16 +2,29 @@
  Tasks
 =======
 
+grafana
+  memory %
+    save to git repo
+prometheus
+  data/logs dir
+  verify ansible install
+  
+
 Logging to filebeat > logstash > elasticsearch
   grafana
   kibana
   elasticsearch
 
+filebeat-index rep factor  
+  
 ES Templates
   syslog
   grafana
   kibanan
   elasticsearch
+
+logstash.service
+  "--config.reload.automatic"
   
 Enable bridge
 

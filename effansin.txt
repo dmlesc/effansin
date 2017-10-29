@@ -315,4 +315,7 @@ grafana
   
   [metrics]
   enabled  # /api/metrics
-  
+
+
+fuser -c mountpoint
+
