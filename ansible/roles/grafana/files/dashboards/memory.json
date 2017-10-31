@@ -103,11 +103,21 @@
               "target": ""
             },
             {
+              "expr": "node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_MemFree{job=\"node\",instance=~\"$node:$port\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "Used",
+              "refId": "A",
+              "step": 4,
+              "target": ""
+            },
+            {
               "expr": "node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"}",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "Total",
-              "refId": "A",
+              "refId": "C",
               "step": 4,
               "target": ""
             }
@@ -132,6 +142,99 @@
           "yaxes": [
             {
               "format": "bytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": 1,
+          "fill": 1,
+          "id": 20,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "(node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_MemFree{job=\"node\",instance=~\"$node:$port\"}) / node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Used",
+              "refId": "C",
+              "step": 4,
+              "target": ""
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Mem - % Used",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
               "label": "",
               "logBase": 1,
               "max": null,
@@ -218,6 +321,14 @@
               "target": ""
             },
             {
+              "expr": "node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_SwapFree{job=\"node\",instance=~\"$node:$port\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Used",
+              "refId": "C",
+              "step": 4
+            },
+            {
               "expr": "node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"}",
               "format": "time_series",
               "intervalFactor": 2,
@@ -247,6 +358,98 @@
           "yaxes": [
             {
               "format": "bytes",
+              "label": "",
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": 1,
+          "fill": 1,
+          "id": 19,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "(node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_SwapFree{job=\"node\",instance=~\"$node:$port\"}) / node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "Used",
+              "refId": "C",
+              "step": 4
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Swap - % Used",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "percent",
               "label": "",
               "logBase": 1,
               "max": null,

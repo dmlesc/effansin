@@ -9,6 +9,10 @@ prometheus
   data/logs dir
   verify ansible install
   
+Elasticsearch
+  jvm.options
+    limit memory used
+    keep swap under control
 
 Logging to filebeat > logstash > elasticsearch
   grafana

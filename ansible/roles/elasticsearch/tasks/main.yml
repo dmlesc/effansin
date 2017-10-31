@@ -35,8 +35,19 @@
     src: elasticsearch.yml.j2
     dest: /etc/elasticsearch/elasticsearch.yml
     owner: root
-    group: root
-    mode: 0644
+    group: elasticsearch
+    mode: 0660
+    backup: yes
+  notify:
+    - restart elasticsearch service
+
+- name: copy jvm.options
+  copy:
+    src: jvm.options
+    dest: /etc/elasticsearch/jvm.options
+    owner: root
+    group: elasticsearch
+    mode: 0660
     backup: yes
   notify:
     - restart elasticsearch service

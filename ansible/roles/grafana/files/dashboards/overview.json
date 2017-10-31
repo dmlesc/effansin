@@ -183,8 +183,8 @@
           "id": 5,
           "legend": {
             "alignAsTable": true,
-            "avg": true,
-            "current": false,
+            "avg": false,
+            "current": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -208,43 +208,28 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"}",
-              "format": "time_series",
-              "hide": false,
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "MemTotal",
-              "refId": "B",
-              "step": 4,
-              "target": ""
-            },
-            {
-              "expr": "node_memory_MemFree{job=\"node\",instance=~\"$node:$port\"}",
-              "format": "time_series",
-              "hide": false,
-              "interval": "",
-              "intervalFactor": 2,
-              "legendFormat": "MemFree",
-              "refId": "I",
-              "step": 4,
-              "target": ""
-            },
-            {
-              "expr": "node_memory_Active{job=\"node\",instance=~\"$node:$port\"}",
+              "expr": "(node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_MemFree{job=\"node\",instance=~\"$node:$port\"}) / node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "Active",
+              "legendFormat": "main",
               "refId": "A",
               "step": 4,
               "target": ""
             },
             {
-              "expr": "node_memory_Committed_AS{job=\"node\",instance=~\"$node:$port\"}",
+              "expr": "(node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_SwapFree{job=\"node\",instance=~\"$node:$port\"}) / node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
               "format": "time_series",
-              "hide": false,
-              "interval": "",
               "intervalFactor": 2,
-              "legendFormat": "Committed",
+              "legendFormat": "swap",
+              "refId": "B",
+              "step": 4,
+              "target": ""
+            },
+            {
+              "expr": "(node_zfs_arc_data_size{job=\"node\",instance=~\"$node:$port\"} + node_zfs_arc_metadata_size{job=\"node\",instance=~\"$node:$port\"}) / node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "zfs",
               "refId": "C",
               "step": 4,
               "target": ""
@@ -269,7 +254,7 @@
           },
           "yaxes": [
             {
-              "format": "bytes",
+              "format": "percent",
               "label": "",
               "logBase": 1,
               "max": null,
