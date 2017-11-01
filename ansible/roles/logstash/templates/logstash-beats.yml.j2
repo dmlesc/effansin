@@ -18,10 +18,27 @@ filter {
         "syslog_message" => "t=%{t} lvl=%{lvl} msg=%{msg} %{+msg} logger=%{logger} userId=%{userId} orgId=%{orgId} uname=%{uname} method=%{method} path=%{path} status=%{status} remote_addr=%{remote_addr} time_ms=%{time_ms} size=%{size} referer=%{referer}"
       }
     }
+    mutate {
+      remove_field => [ "syslog_message" ]
+    }
   }
   if [program] == "kibana" {
     json {
       source => "syslog_message"
+    }
+    mutate {
+      rename => { 
+        "statusCode" => "status"
+        "[res][contentLength]" => "size"
+        "[res][responseTime]" => "time_ms"
+        "[req][headers][user-agent]" => "user_agent"
+        "[req][referer]" => "referer"
+        "[req][method]" => "method"
+        "[req][remoteAddress]" => "remote_addr"
+        "[req][url]" => "path"
+      }
+      uppercase => [ "method" ]
+      remove_field => [ "[res]", "[req]", "syslog_message" ]
     }
   }
   mutate {

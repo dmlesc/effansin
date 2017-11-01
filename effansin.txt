@@ -319,3 +319,26 @@ grafana
 
 fuser -c mountpoint
 
+kibana
+  statusCode
+  res
+    contentLength
+    responseTime
+  req
+    headers
+      user-agent
+    referer
+    method
+    remoteAddress
+    url
+      
+
+grafana
+  remote_addr
+  time_ms
+  status
+  size
+  referer
+  path
+  method
+  

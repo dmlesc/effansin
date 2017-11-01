@@ -2,18 +2,10 @@
  Tasks
 =======
 
-grafana
-  memory %
-    save to git repo
 prometheus
-  data/logs dir
+  data/logs/conf dir
   verify ansible install
   
-Elasticsearch
-  jvm.options
-    limit memory used
-    keep swap under control
-
 Logging to filebeat > logstash > elasticsearch
   grafana
   kibana
