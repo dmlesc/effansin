@@ -28,6 +28,18 @@
     name: logstash
     state: present
 
+- name: copy systemd logstash.service
+  copy:
+    src: logstash.service
+    dest: /etc/systemd/system/logstash.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - enable logstash service
+    - restart logstash service
+
 - name: copy logstash-beats.yml
   template:
     src: logstash-beats.yml.j2

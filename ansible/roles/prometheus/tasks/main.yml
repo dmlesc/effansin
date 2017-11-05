@@ -11,7 +11,7 @@
 - name: copy prometheus.yml
   template:
     src: prometheus.yml
-    dest: /opt/{{ prometheus_ver }}/prometheus.yml
+    dest: "{{ prometheus_data }}/prometheus.yml"
     owner: root
     group: root
     mode: 0644

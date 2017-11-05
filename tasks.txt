@@ -2,13 +2,6 @@
  Tasks
 =======
 
-logstash.service
-  "--config.reload.automatic"
-
-prometheus
-  data/logs/conf dir
-  verify ansible install
-  
 change filebeat-index name  
 filebeat-index rep factor  
 
