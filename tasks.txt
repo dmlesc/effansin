@@ -2,32 +2,34 @@
  Tasks
 =======
 
+logstash.service
+  "--config.reload.automatic"
+
 prometheus
   data/logs/conf dir
   verify ansible install
   
-Logging to filebeat > logstash > elasticsearch
-  grafana
-  kibana
-  elasticsearch
-
+change filebeat-index name  
 filebeat-index rep factor  
-  
+
 ES Templates
   syslog
   grafana
-  kibanan
-  elasticsearch
+  kibana
 
-logstash.service
-  "--config.reload.automatic"
+grafana dashboards
+  elasticsearch exporter
+  kibana time_ms
+  grafana time_ms
   
-Enable bridge
-
-Install Squid Proxy
-  Logging to ES
+Squid Proxy
+  install
+  log to ES
+  grafana dashboards
   
 Research wireshark/pack anals
+
+Enable bridge
 
 elastcpdump
 dumpasticap

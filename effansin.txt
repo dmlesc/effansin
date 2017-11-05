@@ -342,3 +342,12 @@ grafana
   path
   method
   
+
+smartmontools
+  smartd daemon
+  smartctl command
+  /etc/smartd.conf
+
+zfs get all demo/new_fs
+
+dump | restore
