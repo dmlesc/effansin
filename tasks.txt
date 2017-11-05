@@ -2,8 +2,7 @@
  Tasks
 =======
 
-change filebeat-index name  
-filebeat-index rep factor  
+index: syslog rep factor  
 
 ES Templates
   syslog

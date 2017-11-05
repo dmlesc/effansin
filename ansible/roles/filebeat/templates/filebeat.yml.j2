@@ -8,3 +8,4 @@ filebeat.prospectors:
     match: after
 output.logstash:
   hosts: ["{{ ansible_default_ipv4.address }}:5044"]
+  index: syslog
