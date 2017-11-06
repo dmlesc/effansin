@@ -10,7 +10,8 @@ filter {
     pattern_definitions => { "GREEDYMULTILINE" => "(.|\n)*" }
   }
   date {
-    match => [ "[timestamp]", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    match => [ "[syslog_timestamp]", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    target => "@timestamp"
   }
   if [program] == "grafana-server" {
     dissect {
@@ -19,7 +20,7 @@ filter {
       }
     }
     mutate {
-      remove_field => [ "syslog_message" ]
+      remove_field => [ "syslog_message", "t", "logger" ]
     }
   }
   if [program] == "kibana" {
@@ -42,7 +43,7 @@ filter {
     }
   }
   mutate {
-    remove_field => [ "message", "type", "input_type", "offset", "hostname", "[beat]" ]
+    remove_field => [ "syslog_timestamp", "message", "type", "input_type", "offset", "hostname", "[beat]" ]
   }
 }
 output {

@@ -2,13 +2,6 @@
  Tasks
 =======
 
-index: syslog rep factor  
-
-ES Templates
-  syslog
-  grafana
-  kibana
-
 grafana dashboards
   elasticsearch exporter
   kibana time_ms

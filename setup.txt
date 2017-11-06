@@ -77,7 +77,6 @@ http://fnsn0:3000/login
 zfs create vol0/es_data
 chown elasticsearch:elasticsearch /vol0/es_data/
 
-
 nano /etc/sysctl.conf
   vm.max_map_count=262144
 
@@ -85,19 +84,50 @@ curl http://fnsn0:9200
 
 curl -XPUT 'http://fnsn0:9200/.kibana/_settings?pretty' -H 'Content-Type: application/json' -d'
 {
-    "index" : {
-        "number_of_replicas" : 0
-    }
+  "index" : {
+    "number_of_replicas" : 0
+  }
 }'
 
-curl -XPUT 'http://fnsn0:9200/filebeat-*/_settings?pretty' -H 'Content-Type: application/json' -d'
-{
-    "index" : {
-        "number_of_replicas" : 0
-    }
-}'
 
 http://fnsn0:9200/_cat/indices?v
+
+curl -XDELETE 'http://fnsn0:9200/filebeat-*?pretty'
+
+curl -XGET 'http://fnsn0:9200/_template?pretty' 
+
+curl -XPUT 'http://fnsn0:9200/_template/syslog?pretty' -H 'Content-Type: application/json' -d'
+{
+  "template" : "syslog-*",
+  "settings" : {
+    "number_of_shards" : 1,
+    "number_of_replicas" : 0
+  },
+  "mappings": {
+    "syslog": {
+      "properties": {
+        "host": { "type": "keyword" },
+        "lvl": { "type": "keyword" },
+        "method": { "type": "keyword" },
+        "msg": { "type": "text" },
+        "orgId": { "type": "integer" },
+        "path": { "type": "text" },
+        "pid": { "type": "integer" },
+        "program": { "type": "keyword" },
+        "referer": { "type": "text" },
+        "remote_addr": { "type": "keyword" },
+        "size": { "type": "integer" },
+        "status": { "type": "integer" },
+        "syslog_message": { "type": "text" },
+        "time_ms": { "type": "integer" },
+        "user_agent": { "type": "keyword" },
+        "uname": { "type": "keyword" },
+        "userId": { "type": "integer" }
+      }
+    }
+  }
+}
+'
 
 
 

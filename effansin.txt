@@ -351,3 +351,30 @@ smartmontools
 zfs get all demo/new_fs
 
 dump | restore
+
+Networking RFCs
+  RFC791 - IP
+  RFC792 - ICMP
+  RFC826 - ARP
+  RFC768 - UDP
+  RFC739 - TCP
+  RFC2663 - NAT
+  RFC1918 - Addressing
+
+Fragmentation problems can be insidious. Although path MTU discovery should
+automatically resolve MTU conflicts, an administrator must occasionally intervene.
+If you are using a tunneled architecture for a virtual private network, for
+example, you should look at the size of the packets that are traversing the tunnel.
+They are often 1,500 bytes to start with, but once the tunneling header is added,
+they become 1,540 bytes or so and must be fragmented. Setting the MTU of the
+link to a smaller value averts fragmentation and increases the overall performance
+of the tunneled network. Consult the ifconfig man page to see how to set an interface’s
+MTU.
+
+iana.org/assignments/ethernet-numbers
+standards.ieee.org/regauth/oui
+iana.org/assignments/port-numbers
+caida.org
+
+ipcalc
+
