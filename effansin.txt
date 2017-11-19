@@ -359,7 +359,14 @@ Networking RFCs
   RFC768 - UDP
   RFC739 - TCP
   RFC2663 - NAT
-  RFC1918 - Addressing
+  RFC1918 - Private Addressing
+  RFC2131/2 - DHCP
+  RFC1331 - PPP
+  RFC1912 - Common DNS Operational and Configuration Errors
+  RFC1034 – Domain Names: Concepts and Facilities
+  RFC1035 – Domain Names: Implementation and Specification
+  RFC 1094, 1813, 3530 - NFS
+  
 
 Fragmentation problems can be insidious. Although path MTU discovery should
 automatically resolve MTU conflicts, an administrator must occasionally intervene.
@@ -377,4 +384,21 @@ iana.org/assignments/port-numbers
 caida.org
 
 ipcalc
+
+arp
+ethtool -kK
+
+In Ubuntu, you can run the ethtool commands from a post-up script specified in
+the interface’s configuration in /etc/network/interfaces.
+
+Joints between major population centers in the form of switches or routers can
+facilitate debugging by allowing parts of the network to be isolated and debugged
+separately. It’s also helpful to put joints between political and administrative domains,
+for similar reasons.
+
+
+https://www.unbound.net/index.html
+https://calomel.org/unbound_dns.html
+
+You can view the query process in detail with dig +trace
 

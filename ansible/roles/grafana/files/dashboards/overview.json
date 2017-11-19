@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "4.5.2"
+      "version": "4.6.1"
     },
     {
       "type": "panel",
@@ -30,7 +30,17 @@
     }
   ],
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "description": "",
   "editable": true,
@@ -217,20 +227,20 @@
               "target": ""
             },
             {
-              "expr": "(node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_SwapFree{job=\"node\",instance=~\"$node:$port\"}) / node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "swap",
-              "refId": "B",
-              "step": 4,
-              "target": ""
-            },
-            {
               "expr": "(node_zfs_arc_data_size{job=\"node\",instance=~\"$node:$port\"} + node_zfs_arc_metadata_size{job=\"node\",instance=~\"$node:$port\"}) / node_memory_MemTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
               "format": "time_series",
               "intervalFactor": 2,
               "legendFormat": "zfs",
               "refId": "C",
+              "step": 4,
+              "target": ""
+            },
+            {
+              "expr": "(node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} - node_memory_SwapFree{job=\"node\",instance=~\"$node:$port\"}) / node_memory_SwapTotal{job=\"node\",instance=~\"$node:$port\"} * 100",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "swap",
+              "refId": "B",
               "step": 4,
               "target": ""
             }
@@ -319,10 +329,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_network_transmit_bytes{job=\"node\",instance=~\"$node:$port\"}[5m])",
+              "expr": "sum(irate(node_network_transmit_bytes{job=\"node\",instance=~\"$node:$port\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "{{device}}",
+              "legendFormat": "transmit",
+              "refId": "A",
+              "step": 4,
+              "target": ""
+            },
+            {
+              "expr": "sum(irate(node_network_receive_bytes{job=\"node\",instance=~\"$node:$port\"}[5m]))",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "receive",
               "refId": "B",
               "step": 4,
               "target": ""
@@ -331,100 +350,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Network - transmit",
-          "tooltip": {
-            "shared": true,
-            "sort": 2,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "label": "",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "175",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
-          "decimals": 1,
-          "fill": 1,
-          "id": 6,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sideWidth": 250,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 1,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(node_network_receive_bytes{job=\"node\",instance=~\"$node:$port\"}[5m])",
-              "format": "time_series",
-              "intervalFactor": 2,
-              "legendFormat": "{{device}}",
-              "refId": "A",
-              "step": 4,
-              "target": ""
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Network - receive",
+          "title": "Network",
           "tooltip": {
             "shared": true,
             "sort": 2,
@@ -505,103 +431,19 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "irate(node_disk_bytes_read{job=\"node\",instance=~\"$node:$port\"}[5m])",
+              "expr": "sum(irate(node_disk_bytes_read{job=\"node\",instance=~\"$node:$port\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "{{device}}",
+              "legendFormat": "read",
               "refId": "A",
               "step": 4,
               "target": ""
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Disk - read",
-          "tooltip": {
-            "shared": true,
-            "sort": 2,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "bytes",
-              "label": "",
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
             },
             {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ]
-        }
-      ],
-      "repeat": null,
-      "repeatIteration": null,
-      "repeatRowId": null,
-      "showTitle": false,
-      "title": "Dashboard Row",
-      "titleSize": "h6"
-    },
-    {
-      "collapse": false,
-      "height": "175",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": "${DS_PROMETHEUS}",
-          "decimals": 1,
-          "fill": 1,
-          "id": 11,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": false,
-            "max": true,
-            "min": false,
-            "rightSide": true,
-            "show": true,
-            "sideWidth": 250,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "links": [],
-          "nullPointMode": "null",
-          "percentage": false,
-          "pointradius": 1,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "span": 12,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "expr": "irate(node_disk_bytes_written{job=\"node\",instance=~\"$node:$port\"}[5m])",
+              "expr": "sum(irate(node_disk_bytes_written{job=\"node\",instance=~\"$node:$port\"}[5m]))",
               "format": "time_series",
               "intervalFactor": 2,
-              "legendFormat": "{{device}}",
+              "legendFormat": "write",
               "refId": "B",
               "step": 4,
               "target": ""
@@ -610,7 +452,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Disk - write",
+          "title": "Disk",
           "tooltip": {
             "shared": true,
             "sort": 2,
@@ -730,5 +572,5 @@
   },
   "timezone": "browser",
   "title": "overview",
-  "version": 3
+  "version": 4
 }
