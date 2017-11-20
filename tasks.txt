@@ -3,6 +3,7 @@
 =======
 
 grafana dashboards
+  grafana metrics
   kibana time_ms
   grafana time_ms
 
