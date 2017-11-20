@@ -18,9 +18,9 @@
 
 - name: add Elastic repository
   apt_repository:
-    repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    repo: deb https://artifacts.elastic.co/packages/6.x/apt stable main
     state: present
-    filename: '/etc/apt/sources.list.d/elastic-5.x.list'
+    filename: '/etc/apt/sources.list.d/elastic-6.x.list'
 
 - name: install filebeat
   apt:

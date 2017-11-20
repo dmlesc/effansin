@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "4.6.1"
+      "version": "4.6.2"
     },
     {
       "type": "panel",
@@ -1187,6 +1187,467 @@
       "showTitle": false,
       "title": "Dashboard Row",
       "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": null,
+          "fill": 1,
+          "id": 33,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideEmpty": false,
+            "hideZero": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "elasticsearch_thread_pool_threads_count{job=\"elasticsearch\",cluster=~\"$cluster\",name=~\"$name\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{type}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "threadpool - threads",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": 0,
+          "fill": 1,
+          "id": 36,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideZero": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "elasticsearch_thread_pool_active_count{job=\"elasticsearch\",cluster=~\"$cluster\",name=~\"$name\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{type}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "threadpool - active",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": 0,
+          "fill": 1,
+          "id": 37,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideZero": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "elasticsearch_thread_pool_queue_count{job=\"elasticsearch\",cluster=~\"$cluster\",name=~\"$name\"}",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{type}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "threadpool - queue",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": null,
+          "fill": 1,
+          "id": 34,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideZero": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(elasticsearch_thread_pool_rejected_count{job=\"elasticsearch\",cluster=~\"$cluster\",name=~\"$name\"}[5m])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{type}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "threadpool - rejected",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
+    },
+    {
+      "collapse": false,
+      "height": "175",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "${DS_PROMETHEUS}",
+          "decimals": 0,
+          "fill": 1,
+          "id": 35,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": false,
+            "hideZero": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sideWidth": 250,
+            "total": true,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "irate(elasticsearch_thread_pool_completed_count{job=\"elasticsearch\",cluster=~\"$cluster\",name=~\"$name\"}[5m])",
+              "format": "time_series",
+              "intervalFactor": 2,
+              "legendFormat": "{{type}}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "threadpool - completed",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            }
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": null,
+      "repeatRowId": null,
+      "showTitle": false,
+      "title": "Dashboard Row",
+      "titleSize": "h6"
     }
   ],
   "schemaVersion": 14,
@@ -1287,5 +1748,5 @@
   },
   "timezone": "browser",
   "title": "elasticsearch",
-  "version": 10
+  "version": 12
 }

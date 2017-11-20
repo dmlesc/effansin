@@ -18,9 +18,9 @@
 
 - name: add Logstash repository
   apt_repository:
-    repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
+    repo: deb https://artifacts.elastic.co/packages/6.x/apt stable main
     state: present
-    filename: '/etc/apt/sources.list.d/elastic-5.x.list'
+    filename: '/etc/apt/sources.list.d/elastic-6.x.list'
 
 - name: install logstash
   apt:
@@ -40,12 +40,12 @@
     - enable logstash service
     - restart logstash service
 
-- name: copy logstash-beats.yml
+- name: copy logstash-beats.conf
   template:
-    src: logstash-beats.yml.j2
-    dest: /etc/logstash/conf.d/logstash-beats.yml
+    src: logstash-beats.conf.j2
+    dest: /etc/logstash/conf.d/logstash-beats.conf
     owner: root
     group: root
     mode: 0644
-#  notify:
-#    - restart logstash service
+  notify:
+    - restart logstash service

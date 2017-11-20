@@ -3,14 +3,19 @@
 =======
 
 grafana dashboards
-  elasticsearch exporter
   kibana time_ms
   grafana time_ms
+
+prometheus memory limit
+
+ps app
   
 Squid Proxy
   install
   log to ES
   grafana dashboards
+
+DNS - Unbound
   
 Research wireshark/pack anals
 

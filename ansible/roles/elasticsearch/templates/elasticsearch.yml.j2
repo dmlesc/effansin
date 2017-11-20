@@ -1,4 +1,5 @@
 cluster.name: {{ ansible_hostname }}
 node.name: {{ ansible_hostname }}
 path.data: /vol0/es_data
+path.logs: /var/log/elasticsearch
 network.host: {{ ansible_default_ipv4.address }}
