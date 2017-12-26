@@ -2,14 +2,16 @@
  Tasks
 =======
 
+prometheus 2.0
+prometheus memory limit
+
+ps_exptr
+pcap_exptr
+
 grafana dashboards
   grafana metrics
   kibana time_ms
   grafana time_ms
-
-prometheus memory limit
-
-ps app
   
 Squid Proxy
   install
@@ -19,9 +21,4 @@ Squid Proxy
 DNS - Unbound
   
 Research wireshark/pack anals
-
-Enable bridge
-
-elastcpdump
-dumpasticap
 

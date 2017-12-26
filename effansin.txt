@@ -402,3 +402,39 @@ https://calomel.org/unbound_dns.html
 
 You can view the query process in detail with dig +trace
 
+Bro IDS
+snort.org
+OSSEC
+https://www.serverwatch.com/
+
+We like the "shocking nonsense" approach defined by Grady Ward in an earlier
+version of the PGP Passphrase FAQ:
+
+"Shocking nonsense" means to make up a short phrase or sentence that is
+both nonsensical and shocking in the culture of the user. That is, it contains
+grossly obscene, racist, impossible or otherwise extreme juxtapositions of
+ideas. This technique is permissible because the passphrase, by its nature, is
+never revealed to anyone with sensibilities to offend.
+
+Shocking nonsense is unlikely to be duplicated anywhere because it does
+not describe a matter of fact that could be accidentally rediscovered by
+someone else. The emotional evocation makes it difficult for the creator to 
+forget. A mild example of such shocking nonsense might be, "Mollusks peck
+my galloping genitals." The reader can undoubtedly make up many far
+more shocking or entertaining examples for him or herself.
+
+In DMTF’s own words, CIM is "a management schema...provided to establish a
+common conceptual framework at the level of a fundamental topology both with
+respect to classification and association, and with respect to the basic set of
+classes intended to establish a common framework for a description of the managed
+environment." Or whatever.
+
+All major vendors from Microsoft to Sun are members of the DMTF. Unfortunately,
+the standards they have produced demonstrate an impressive mastery of the arts 
+of obfuscation and buzzword husbandry.
+
+NetFlow tracks every connection with seven keys: source and destination IP address,
+source and destination port number, protocol (TCP, UDP, etc.), type of service
+(ToS), and logical interface. This metadata, combined with additional information
+such as the number of packets and bytes involved, can be sent to any
+suitable collector.
