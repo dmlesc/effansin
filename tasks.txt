@@ -5,9 +5,16 @@
 prometheus 2.0
 prometheus memory limit
 
-ps_exptr
-pcap_exptr
+nodejs
+  metrics
+  ps_exptr
+  pcap_exptr
 
+logstash
+  kv
+    prometheus
+    grafana
+    
 grafana dashboards
   grafana metrics
   kibana time_ms

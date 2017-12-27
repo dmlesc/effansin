@@ -129,8 +129,6 @@ curl -XPUT 'http://fnsn0:9200/_template/syslog?pretty' -H 'Content-Type: applica
 }
 '
 
-
-
 ========
  kibana
 ========
@@ -138,3 +136,11 @@ curl -XPUT 'http://fnsn0:9200/_template/syslog?pretty' -H 'Content-Type: applica
 http://fnsn0:5601
 
 
+
+=========
+ tcpdump
+=========
+
+tcpdump -D
+
+tcpdump -i ens3
