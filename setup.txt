@@ -122,7 +122,10 @@ curl -XPUT 'http://fnsn0:9200/_template/syslog?pretty' -H 'Content-Type: applica
         "time_ms": { "type": "integer" },
         "user_agent": { "type": "keyword" },
         "uname": { "type": "keyword" },
-        "userId": { "type": "integer" }
+        "userId": { "type": "integer" },
+        "caller": { "type": "text" },
+        "component": { "type": "text" },
+        "count": { "type": "integer" }
       }
     }
   }

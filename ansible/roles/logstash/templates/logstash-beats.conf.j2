@@ -14,10 +14,8 @@ filter {
     target => "@timestamp"
   }
   if [program] == "grafana-server" {
-    dissect {
-      mapping => {
-        "syslog_message" => "t=%{t} lvl=%{lvl} msg=%{msg} %{+msg} logger=%{logger} userId=%{userId} orgId=%{orgId} uname=%{uname} method=%{method} path=%{path} status=%{status} remote_addr=%{remote_addr} time_ms=%{time_ms} size=%{size} referer=%{referer}"
-      }
+    kv {
+      source => "syslog_message"
     }
     mutate {
       remove_field => [ "syslog_message", "t", "logger" ]
@@ -42,6 +40,18 @@ filter {
       remove_field => [ "[res]", "[req]", "syslog_message" ]
     }
   }
+  if [program] == "prometheus" {
+    kv {
+      source => "syslog_message"
+    }
+    mutate {
+      rename => { 
+        "level" => "lvl"
+        "filename" => "path"
+      }
+      remove_field => [ "ts", "syslog_message" ]
+    }
+  }
   mutate {
     remove_field => [ "syslog_timestamp", "message", "type", "input_type", "offset", "hostname", "[beat]" ]
   }
@@ -51,6 +61,5 @@ output {
     hosts => "http://{{ ansible_default_ipv4.address }}:9200"
     manage_template => false
     index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-    document_type => "%{[@metadata][type]}"
   }
 }
