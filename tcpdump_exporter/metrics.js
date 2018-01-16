@@ -18,9 +18,9 @@ var metrics = () => {
       const uptime = process.uptime();
       const mem = process.memoryUsage();
       const cpu = process.cpuUsage(start_cpu_usage);
+      start_cpu_usage = process.cpuUsage();
       cpu_usage_user += cpu.user;
       cpu_usage_system += cpu.system;
-      start_cpu_usage = process.cpuUsage();
   
       data += 'nodejs_process_uptime ' + uptime + '\n'; 
       data += 'nodejs_process_memory{type="rss"} ' + mem.rss + '\n'; 

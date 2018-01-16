@@ -8,9 +8,9 @@ metrics();
 const nic = 'ens3';
 
 const { spawn } = require('child_process');
-const pcap = spawn('tcpdump', ['-i', nic, '-nl']);
+const tcpdump = spawn('tcpdump', ['-i', nic, '-nl']);
 
-pcap.stdout.on('data', (data) => {
+tcpdump.stdout.on('data', (data) => {
   //console.log(`\n**************\nstdout:\n\n${data}\n**************\n`);
   var d = new Date();
   var year = d.getUTCFullYear();
@@ -27,10 +27,23 @@ pcap.stdout.on('data', (data) => {
       var packet_split = packet.split(' ');
       var ts = packet_split[0].split(':');
       var sec = ts[2].split('.');
-      var timestamp = new Date(year, month, day, ts[0], ts[1], sec[0], sec[1] / 1000);
-      //console.log(ts, timestamp.toJSON())
+      var timestamp = new Date(year, month, day, ts[0], ts[1], sec[0], sec[1] / 1000).toJSON();
+      //console.log(ts, timestamp)
 
       if (packet_split[1] == 'IP') {
+        //console.log(packet);
+        var protocol = 'IP';
+
+        var src = parseIPPort(packet_split[2]);
+        var dst = parseIPPort(packet_split[4]);
+        //console.log(src, dst);
+
+        var flags = packet_split[6].slice(1, -2);
+        //console.log(flags, packet_split[6]);
+
+        var length = packet_split[packet_split.indexOf('length') + 1];
+        //console.log(length);
+
 
       }
       else if (packet_split[1] == 'ARP,') {
@@ -46,10 +59,19 @@ pcap.stdout.on('data', (data) => {
   }
 });
 
-pcap.stderr.on('data', (data) => {
+
+function parseIPPort(str) {
+  var obj = {};
+  var str_split = str.split('.');
+  obj.ip = str_split.slice(0,4).join('.');
+  obj.port = str_split[4].replace(':', '');
+  return obj;
+}
+
+tcpdump.stderr.on('data', (data) => {
   console.log(`stderr: ${data}`);
 });
 
-pcap.on('close', (code) => {
+tcpdump.on('close', (code) => {
   console.log(`child process exited with code ${code}`);
 });
