@@ -1,0 +1,15 @@
+{
+  "name": "tcpdump_exporter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "tcpdump_exporter.js",
+  "dependencies": {
+    "elasticsearch": "^14.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "ISC"
+}

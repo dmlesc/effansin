@@ -132,6 +132,30 @@ curl -XPUT 'http://fnsn0:9200/_template/syslog?pretty' -H 'Content-Type: applica
 }
 '
 
+curl -XPUT 'http://fnsn0:9200/_template/tcpdump?pretty' -H 'Content-Type: application/json' -d'
+{
+  "template" : "tcpdump-*",
+  "settings" : {
+    "number_of_shards" : 1,
+    "number_of_replicas" : 0
+  },
+  "mappings": {
+    "doc": {
+      "properties": {
+        "timestamp": { "type": "date", "format": "strict_date_optional_time" },
+        "protocol": { "type": "keyword" },
+        "src_ip": { "type": "keyword" },
+        "src_port": { "type": "keyword" },
+        "dst_ip": { "type": "keyword" },
+        "dst_port": { "type": "keyword" },
+        "flags": { "type": "text" },
+        "length": { "type": "integer" }
+      }
+    }
+  }
+}
+'
+
 ========
  kibana
 ========
