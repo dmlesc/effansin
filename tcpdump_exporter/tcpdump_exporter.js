@@ -19,15 +19,10 @@ const { spawn } = require('child_process');
 const tcpdump = spawn('tcpdump', ['-i', nic, '-nl']);
 
 tcpdump.stderr.on('data', (data) => { console.log(`stderr: ${data}`); });
-tcpdump.on('close', (code) => { console.log(`child process exited with code ${code}`); });
+tcpdump.on('close', (code) => { console.log(`exit: ${code}`); });
 
 tcpdump.stdout.on('data', (data) => {
-  //console.log(`\n**************\nstdout:\n\n${data}\n**************\n`);
-  var d = new Date();
-  var year = d.getUTCFullYear();
-  var month = d.getUTCMonth();
-  var day = d.getUTCDate();
-
+  var timestamp = new Date().toJSON();
   var packets = data.toString().split('\n');
 
   for (var i=0; i<packets.length; i++) {
@@ -35,10 +30,6 @@ tcpdump.stdout.on('data', (data) => {
     var packet = packets[i].split(' ');
 
     if (packet.length > 1) {
-      var ts = packet[0].split(':');
-      var sec = ts[2].split('.');
-      var timestamp = new Date(year, month, day, ts[0], ts[1], sec[0], sec[1] / 1000).toJSON();
-
       if (packet[1] == 'IP') {
         var protocol = 'IP';
         var src = parseIPPort(packet[2]);
@@ -73,18 +64,19 @@ function parseIPPort(str) {
   var obj = {};
   var str_split = str.split('.');
   obj.ip = str_split.slice(0,4).join('.');
-  obj.port = str_split[4].replace(':', '');
+
+  if (str_split[4] != undefined) {
+    obj.port = str_split[4].replace(':', '');
+  }
+  
   return obj;
 }
 
 
 function flushPackets() {
-  console.log('flushPackets');
-
   if (packetsQueue[0].length) {
     var packets = packetsQueue.shift();
     packetsQueue.push([]);
-    console.log('#packets: ', packets.length);
 
     var bulk = [];
 
@@ -100,19 +92,17 @@ function flushPackets() {
       bulk.push(action);
       bulk.push(packet);
     }
-    console.log('bulk ready');
+    //console.log('bulk ready');
     elasticBulk(bulk);
   }
 }
 
 function elasticBulk(bulk) {
   elastic.bulk({ body: bulk }, (err, res) => {
-    if (err) {
-      console.log(err);
-    }
+    if (err) { console.log(err); }
     else {
       //console.log(res);
-      console.log('bulk inserted');
+      console.log('bulk inserted:', bulk.length / 2);
     }
   });
 }

@@ -93,6 +93,7 @@ curl -XPUT 'http://fnsn0:9200/.kibana/_settings?pretty' -H 'Content-Type: applic
 http://fnsn0:9200/_cat/indices?v
 
 curl -XDELETE 'http://fnsn0:9200/filebeat-*?pretty'
+curl -XDELETE 'http://fnsn0:9200/tcpdump-*?pretty'
 
 curl -XGET 'http://fnsn0:9200/_template?pretty' 
 
