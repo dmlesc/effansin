@@ -2,10 +2,26 @@
  Tasks
 =======
 
-nodejs
-  metrics
-  ps_exptr
-  pcap_exptr
+nodejs metrics
+  time bulk es
+  time parse
+
+tcpdump_exporter
+  use DNS name
+  error log
+  es index to month
+
+logstash
+  syslog index to month
+
+ansible
+  tcpdump_exporter deploy by NIC
+
+grafana dashboards
+stress test
+
+reinstall from scratch
+documentation
 
   
 Squid Proxy
