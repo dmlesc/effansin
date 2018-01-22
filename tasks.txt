@@ -2,6 +2,9 @@
  Tasks
 =======
 
+ansible
+  tcpdump_exporter deploy by NIC
+
 nodejs metrics
   time bulk es
   time parse
@@ -11,8 +14,6 @@ tcpdump_exporter
   error log
   es index to month
 
-ansible
-  tcpdump_exporter deploy by NIC
 
 grafana dashboards
 stress test
