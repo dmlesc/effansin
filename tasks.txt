@@ -11,9 +11,6 @@ tcpdump_exporter
   error log
   es index to month
 
-logstash
-  syslog index to month
-
 ansible
   tcpdump_exporter deploy by NIC
 

@@ -1,4 +1,4 @@
-server.host: {{ ansible_default_ipv4.address }}
+server.host: 0.0.0.0
 server.name: "{{ ansible_hostname }}"
-elasticsearch.url: "http://{{ ansible_default_ipv4.address }}:9200"
+elasticsearch.url: "http://localhost:9200"
 elasticsearch.requestTimeout: 300000

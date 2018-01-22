@@ -1,10 +1,9 @@
 'use strict';
 process.on('uncaughtException', (err) => { console.log(err); });
 
-const conf = require('./conf/' + process.argv[2]);
 const elasticsearch = require('elasticsearch');
 const elastic = new elasticsearch.Client({
-  host: conf.elasticHost
+  host: 'http://fnsn0:9200'
   //, log: 'trace'
 });
 var metrics = require('./metrics');
@@ -14,9 +13,10 @@ metrics();
 
 const nic = 'ens3';
 var packetsQueue = [ [], [] ];
+const flushInterval = 5000;
 
 const { spawn } = require('child_process');
-const tcpdump = spawn('tcpdump', ['-i', nic, '-nl']);
+const tcpdump = spawn('tcpdump', ['-i', nic, '-nl', '-s', '75']);
 
 tcpdump.stderr.on('data', (data) => { console.log(`stderr: ${data}`); });
 tcpdump.on('close', (code) => { console.log(`exit: ${code}`); });
@@ -65,9 +65,10 @@ function parseIPPort(str) {
   var str_split = str.split('.');
   obj.ip = str_split.slice(0,4).join('.');
 
-  if (str_split[4] != undefined) {
+  if (str_split[4] != undefined)
     obj.port = str_split[4].replace(':', '');
-  }
+  else
+    obj.port = '-';
   
   return obj;
 }
@@ -79,18 +80,13 @@ function flushPackets() {
     packetsQueue.push([]);
 
     var bulk = [];
+    var date = packets[0].timestamp.split('T')[0].slice(0,7).replace('-', '.');
+    var index = { _index: 'tcpdump-' + date, _type: 'doc' };
+    var action = { index: index };
 
     for (var i=0; i<packets.length; i++) {
-      var packet = packets[i];
-      var date = packet.timestamp.split('T')[0];
-      var index = {};
-      index._index = 'tcpdump-' + date;
-      index._type = 'doc';
-
-      var action = {};
-      action.index = index;
       bulk.push(action);
-      bulk.push(packet);
+      bulk.push(packets[i]);
     }
     //console.log('bulk ready');
     elasticBulk(bulk);
@@ -107,4 +103,4 @@ function elasticBulk(bulk) {
   });
 }
 
-var flushInterval = setInterval(flushPackets, conf.flushFreq);
+var flush = setInterval(flushPackets, flushInterval);
