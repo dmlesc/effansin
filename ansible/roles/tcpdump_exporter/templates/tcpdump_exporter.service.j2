@@ -1,0 +1,12 @@
+[Unit]
+Description=tcpdump_exporter
+After=network.target
+
+[Service]
+User=root
+ExecStart=/usr/bin/node tcpdump_exporter.js
+WorkingDirectory=/opt/tcpdump_exporter
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

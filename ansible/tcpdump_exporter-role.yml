@@ -1,0 +1,7 @@
+---
+# file: tcpdump_exporter-role.yml
+
+- hosts: tcpdump_exporter
+  become: true
+  roles:
+    - tcpdump_exporter

@@ -1,0 +1,55 @@
+---
+# file: roles/tcpdump_exporter/tasks/main.yml
+
+- name: create tcpdump_exporter archive
+  become: false
+  archive:
+    path: "{{ repo_path }}"
+    dest: ~/git/effansin/ansible/roles/tcpdump_exporter/files/tcpdump_exporter.tgz
+  tags:
+    install
+
+- name: extract tcpdump_exporter archive
+  unarchive:
+    src: tcpdump_exporter.tgz
+    dest: /opt/
+    owner: root
+    group: root
+  tags:
+    install
+
+- name: copy systemd tcpdump_exporter.service
+  template:
+    src: tcpdump_exporter.service.j2
+    dest: /lib/systemd/system/tcpdump_exporter.service
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - enable tcpdump_exporter service
+    - restart tcpdump_exporter service
+  tags:
+    install
+
+- name: copy tcpdump_exporter.js
+  template:
+    src: "{{ repo_path }}/tcpdump_exporter.js"
+    dest: /opt/tcpdump_exporter/tcpdump_exporter.js
+    owner: dml
+    group: dml
+    mode: 0644
+    backup: no
+  notify:
+    - restart tcpdump_exporter
+
+- name: copy metrics.js
+  template:
+    src: "{{ repo_path }}/metrics.js"
+    dest: /opt/tcpdump_exporter/metrics.js
+    owner: dml
+    group: dml
+    mode: 0644
+    backup: no
+  notify:
+    - restart tcpdump_exporter

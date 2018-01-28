@@ -2,3 +2,4 @@ node_exporter_ver: node_exporter-0.15.0.linux-amd64
 prometheus_ver: prometheus-2.0.0.linux-amd64
 prometheus_data: /vol0/prom_data
 elasticsearch_exporter_ver: elasticsearch_exporter-1.0.1.linux-amd64
+repo_path: ~/git/effansin/tcpdump_exporter/

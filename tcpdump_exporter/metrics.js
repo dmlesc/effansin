@@ -1,7 +1,7 @@
 'use strict';
 
 var port = 12345;
-var ip = '192.168.2.61';
+var ip = '0.0.0.0';
 const http = require('http');
 
 var metrics = () => {  
@@ -10,7 +10,7 @@ var metrics = () => {
   var cpu_usage_system = 0;
   
   const server = http.createServer((req, res) => {
-    console.log(new Date().toJSON() + ' - ' + req.url);
+    //console.log(new Date().toJSON() + ' - ' + req.url);
     var code = 200;
     var data = '';
   

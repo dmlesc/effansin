@@ -1,0 +1,14 @@
+---
+# file: roles/tcpdump_exporter/handlers/main.yml
+
+- name: enable tcpdump_exporter
+  systemd:
+    daemon_reload: yes
+    name: tcpdump_exporter
+    enabled: yes
+    masked: no
+
+- name: restart tcpdump_exporter
+  systemd:
+    name: tcpdump_exporter
+    state: restarted

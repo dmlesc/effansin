@@ -11,9 +11,10 @@ metrics();
 //metrics.log();
 //setTimeout(metrics.log, 5000);
 
-const nic = 'ens3';
+const nic = 'ens35';
 var packetsQueue = [ [], [] ];
-const flushInterval = 5000;
+const interval = 5000;
+const packetsLimit = 5000;
 
 const { spawn } = require('child_process');
 const tcpdump = spawn('tcpdump', ['-i', nic, '-nl', '-s', '75']);
@@ -55,6 +56,11 @@ tcpdump.stdout.on('data', (data) => {
       else {
         //console.log(packet);
       }
+
+      if (packetsQueue[0].length >= packetsLimit) {
+        //console.log('limit reached');
+        flushPackets();
+      }
     }
   }
 });
@@ -88,19 +94,42 @@ function flushPackets() {
       bulk.push(action);
       bulk.push(packets[i]);
     }
-    //console.log('bulk ready');
-    elasticBulk(bulk);
+
+    bulkQueue.push(bulk);
+  }
+}
+
+var bulkQueue = [];
+var processing = false;
+
+function flushBulk() {
+  if (!processing && bulkQueue.length) {
+    processing = true;
+    elasticBulk(bulkQueue.shift());
+  }
+  else {
+    //console.log('processing');
   }
 }
 
 function elasticBulk(bulk) {
   elastic.bulk({ body: bulk }, (err, res) => {
-    if (err) { console.log(err); }
+    if (err) { console.log(err); bulkQueue.push(bulk); }
     else {
       //console.log(res);
-      console.log('bulk inserted:', bulk.length / 2);
+      //console.log('bulk inserted:', bulk.length / 2);
+
+      if (bulkQueue.length) {
+        //console.log('bulkQueue.length:', bulkQueue.length);
+        elasticBulk(bulkQueue.shift());
+      }
+      else {
+        //console.log('done processing');
+        processing = false;
+      }
     }
   });
 }
 
-var flush = setInterval(flushPackets, flushInterval);
+var flush = setInterval(flushPackets, interval);
+var flush = setInterval(flushBulk, interval);
