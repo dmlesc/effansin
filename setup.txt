@@ -145,9 +145,9 @@ curl -XPUT 'http://fnsn0:9200/_template/tcpdump?pretty' -H 'Content-Type: applic
       "properties": {
         "timestamp": { "type": "date", "format": "strict_date_optional_time" },
         "protocol": { "type": "keyword" },
-        "src_ip": { "type": "keyword" },
+        "src_host": { "type": "keyword" },
         "src_port": { "type": "keyword" },
-        "dst_ip": { "type": "keyword" },
+        "dst_host": { "type": "keyword" },
         "dst_port": { "type": "keyword" },
         "flags": { "type": "text" },
         "length": { "type": "integer" }
@@ -168,6 +168,12 @@ http://fnsn0:5601
 ==================
  tcpdump_exporter
 ==================
+
+ens32/br0 = IN
+ens33 = pi1
+ens34 = dml0
+end35 = blu-ray
+
 
 tcpdump -D
 

@@ -2,30 +2,18 @@
  Tasks
 =======
 
-ansible
-  tcpdump_exporter deploy by NIC
+tcpdump_exporter
+  spawn for multiple NICs
+  error log
 
 nodejs metrics
   time bulk es
   time parse
-
-tcpdump_exporter
-  use DNS name
-  error log
-  es index to month
-
+  gauge bulkQueue.length
 
 grafana dashboards
 stress test
 
 reinstall from scratch
 documentation
-
-  
-Squid Proxy
-  install
-  log to ES
-  grafana dashboards
-
-DNS - Unbound
 
