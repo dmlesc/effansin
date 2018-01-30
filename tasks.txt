@@ -2,10 +2,6 @@
  Tasks
 =======
 
-tcpdump_exporter
-  spawn for multiple NICs
-  error log
-
 nodejs metrics
   time bulk es
   time parse

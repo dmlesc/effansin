@@ -150,7 +150,8 @@ curl -XPUT 'http://fnsn0:9200/_template/tcpdump?pretty' -H 'Content-Type: applic
         "dst_host": { "type": "keyword" },
         "dst_port": { "type": "keyword" },
         "flags": { "type": "text" },
-        "length": { "type": "integer" }
+        "length": { "type": "integer" },
+        "nic": { "type": "keyword" }
       }
     }
   }
