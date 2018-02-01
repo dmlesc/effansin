@@ -8,8 +8,8 @@ const elastic = new elasticsearch.Client({
 });
 var metrics = require('./metrics');
 metrics();
-//metrics.log();
-//setTimeout(metrics.log, 5000);
+metrics.register('bulk_es_ms_total');
+metrics.register('bulk_queue_length');
 
 const NICs = ['ens32','ens33','ens34','ens35'];
 var packetsQueue = [ [], [] ];
@@ -104,7 +104,10 @@ function flushBulk() {
 }
 
 function elasticBulk(bulk) {
+  metrics.startTime('bulk_es_ms_total');
   elastic.bulk({ body: bulk }, (err, res) => {
+    metrics.endTime('bulk_es_ms_total');
+    metrics.set('bulk_queue_length', bulkQueue.length);
     if (err) { console.log(err); bulkQueue.push(bulk); }
     else {
       //console.log(res);

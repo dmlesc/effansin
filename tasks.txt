@@ -2,11 +2,6 @@
  Tasks
 =======
 
-nodejs metrics
-  time bulk es
-  time parse
-  gauge bulkQueue.length
-
 grafana dashboards
 stress test
 

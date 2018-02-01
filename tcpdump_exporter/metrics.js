@@ -3,6 +3,7 @@
 var port = 12345;
 var ip = '0.0.0.0';
 const http = require('http');
+var register = {};
 
 var metrics = () => {  
   var start_cpu_usage = process.cpuUsage();
@@ -30,6 +31,14 @@ var metrics = () => {
       data += 'nodejs_process_cpu{type="system"} ' + cpu.system + '\n'; 
       data += 'nodejs_process_cpu_total{type="user"} ' + cpu_usage_user + '\n'; 
       data += 'nodejs_process_cpu_total{type="system"} ' + cpu_usage_system + '\n'; 
+
+      Object.keys(register).forEach( (metric) => {
+        //console.log(metric);
+        data += 'nodejs_' + metric + ' ' + register[metric]['value'] + '\n';
+      });
+      
+
+
     }
     else {
       code = 404;
@@ -46,6 +55,26 @@ var metrics = () => {
 
 metrics.log = () => {
   console.log('hello');
+}
+
+metrics.register = (name) => {
+  //console.log('name:', name);
+  register[name] = {start:0, value:0};
+}
+
+metrics.startTime = (name) => {
+  register[name]['start'] = process.hrtime();
+}
+
+metrics.endTime = (name) => {
+  var diff = process.hrtime(register[name]['start']);
+  var ms = Math.round(diff[0] * 1000 + diff[1] / 1000000);
+  register[name]['value'] += ms;
+  //console.log(ms, register[name]['value']);
+}
+
+metrics.set = (name, value) => {
+  register[name]['value'] = value;
 }
 
 module.exports = metrics;
