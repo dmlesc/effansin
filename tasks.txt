@@ -2,9 +2,6 @@
  Tasks
 =======
 
-grafana dashboards
-stress test
-
 reinstall from scratch
 documentation
 

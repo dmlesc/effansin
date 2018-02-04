@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "4.6.2"
+      "version": "4.6.3"
     },
     {
       "type": "panel",
@@ -1748,5 +1748,5 @@
   },
   "timezone": "browser",
   "title": "elasticsearch",
-  "version": 12
+  "version": 14
 }

@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "4.5.2"
+      "version": "4.6.3"
     },
     {
       "type": "panel",
@@ -30,7 +30,17 @@
     }
   ],
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "description": "",
   "editable": true,
@@ -43,7 +53,7 @@
   "rows": [
     {
       "collapse": false,
-      "height": "175",
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -58,7 +68,8 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideEmpty": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -137,7 +148,7 @@
     },
     {
       "collapse": false,
-      "height": "175",
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -152,7 +163,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -231,7 +242,7 @@
     },
     {
       "collapse": false,
-      "height": "175",
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -246,7 +257,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -325,7 +336,7 @@
     },
     {
       "collapse": false,
-      "height": "175",
+      "height": "200",
       "panels": [
         {
           "aliasColors": {},
@@ -340,7 +351,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -434,7 +445,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -528,7 +539,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -622,7 +633,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -716,7 +727,7 @@
             "alignAsTable": true,
             "avg": true,
             "current": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -811,7 +822,7 @@
             "avg": true,
             "current": false,
             "hideEmpty": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -906,7 +917,7 @@
             "avg": true,
             "current": false,
             "hideEmpty": false,
-            "hideZero": false,
+            "hideZero": true,
             "max": true,
             "min": false,
             "rightSide": true,
@@ -1062,5 +1073,5 @@
   },
   "timezone": "browser",
   "title": "network",
-  "version": 11
+  "version": 7
 }

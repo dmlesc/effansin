@@ -177,10 +177,21 @@ end35 = blu-ray
 
 
 tcpdump -D
-
 tcpdump -i ens3
 
+ps f -g <PID>
+  PID TTY      STAT   TIME COMMAND
+ 2850 ?        Ssl    0:02 /usr/bin/node tcpdump_exporter.js
+ 2859 ?        S      0:00  \_ tcpdump -i ens32 -l -s 75
+ 2860 ?        S      0:00  \_ tcpdump -i ens33 -l -s 75
+ 2861 ?        S      0:00  \_ tcpdump -i ens34 -l -s 75
+ 2862 ?        S      0:00  \_ tcpdump -i ens35 -l -s 75
 
 ansible-playbook -i env-local/ --limit=ctrl0 tcpdump_exporter-role.yml
 
 ansible-playbook -i env-local/ --limit=fnsn0 --skip-tags "install" tcpdump_exporter-role.yml
+
+
+{"find": "fields", "type": "keyword"}
+{"find": "terms", "field": "nic", "size": 4}
+
