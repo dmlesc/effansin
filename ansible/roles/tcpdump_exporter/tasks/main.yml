@@ -7,7 +7,7 @@
     path: "{{ repo_path }}"
     dest: ~/git/effansin/ansible/roles/tcpdump_exporter/files/tcpdump_exporter.tgz
   tags:
-    install
+    tar
 
 - name: extract tcpdump_exporter archive
   unarchive:
@@ -36,8 +36,8 @@
   template:
     src: "{{ repo_path }}/tcpdump_exporter.js"
     dest: /opt/tcpdump_exporter/tcpdump_exporter.js
-    owner: dml
-    group: dml
+    owner: root
+    group: root
     mode: 0644
     backup: no
   notify:
@@ -47,8 +47,19 @@
   template:
     src: "{{ repo_path }}/metrics.js"
     dest: /opt/tcpdump_exporter/metrics.js
-    owner: dml
-    group: dml
+    owner: root
+    group: root
+    mode: 0644
+    backup: no
+  notify:
+    - restart tcpdump_exporter
+
+- name: copy log.js
+  template:
+    src: "{{ repo_path }}/log.js"
+    dest: /opt/tcpdump_exporter/log.js
+    owner: root
+    group: root
     mode: 0644
     backup: no
   notify:

@@ -1,4 +1,6 @@
 'use strict';
+var log = require('./log');
+process.on('uncaughtException', (err) => { log(err); });
 
 var port = 12345;
 var ip = '0.0.0.0';
@@ -11,7 +13,7 @@ var metrics = () => {
   var cpu_usage_system = 0;
   
   const server = http.createServer((req, res) => {
-    //console.log(new Date().toJSON() + ' - ' + req.url);
+    //log(new Date().toJSON() + ' - ' + req.url);
     var code = 200;
     var data = '';
   
@@ -33,12 +35,8 @@ var metrics = () => {
       data += 'nodejs_process_cpu_total{type="system"} ' + cpu_usage_system + '\n'; 
 
       Object.keys(register).forEach( (metric) => {
-        //console.log(metric);
         data += 'nodejs_' + metric + ' ' + register[metric]['value'] + '\n';
       });
-      
-
-
     }
     else {
       code = 404;
@@ -50,15 +48,10 @@ var metrics = () => {
   });
   
   server.listen(port, ip);
-  console.log('ready to serve metrics');
-}
-
-metrics.log = () => {
-  console.log('hello');
+  log('ready to serve metrics');
 }
 
 metrics.register = (name) => {
-  //console.log('name:', name);
   register[name] = {start:0, value:0};
 }
 
@@ -70,7 +63,6 @@ metrics.endTime = (name) => {
   var diff = process.hrtime(register[name]['start']);
   var ms = Math.round(diff[0] * 1000 + diff[1] / 1000000);
   register[name]['value'] += ms;
-  //console.log(ms, register[name]['value']);
 }
 
 metrics.set = (name, value) => {

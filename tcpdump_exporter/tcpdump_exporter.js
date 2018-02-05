@@ -1,15 +1,18 @@
 'use strict';
-process.on('uncaughtException', (err) => { console.log(err); });
+var log = require('./log');
+process.on('uncaughtException', (err) => { log(err); });
 
+const { spawn } = require('child_process');
 const elasticsearch = require('elasticsearch');
 const elastic = new elasticsearch.Client({
-  host: 'http://fnsn0:9200'
+  host: 'http://localhost:9200'
   //, log: 'trace'
 });
-var metrics = require('./metrics');
-metrics();
-metrics.register('bulk_es_ms_total');
-metrics.register('bulk_queue_length');
+
+var m = require('./metrics');
+m();
+m.register('bulk_es_ms_total');
+m.register('bulk_queue_length');
 
 const NICs = ['ens32','ens33','ens34','ens35'];
 var packetsQueue = [ [], [] ];
@@ -18,21 +21,17 @@ const packetsLimit = 5000;
 var bulkQueue = [];
 var processing = false;
 
-const { spawn } = require('child_process');
-
-
 function spawns(nic) {
   const tcpdump = spawn('tcpdump', ['-i', nic, '-l', '-s', '75']);
 
-  tcpdump.stderr.on('data', (data) => { console.log(`stderr: ${data}`); });
-  tcpdump.on('close', (code) => { console.log('close:', code); });
+  tcpdump.stderr.on('data', (data) => { log(`stderr: ${data}`); });
+  tcpdump.on('close', (code) => { log('close:', code); });
   
   tcpdump.stdout.on('data', (data) => {
-    var timestamp = new Date().toJSON();
+    const timestamp = new Date().toJSON();
     var packets = data.toString().split('\n');
   
     for (var i=0; i<packets.length; i++) {
-      //console.log(packets[i]);
       var packet = packets[i].split(' ');
   
       if (packet.length > 1) {
@@ -57,8 +56,8 @@ function spawns(nic) {
   
           packetsQueue[0].push(doc);
         }
-        else if (packet[1] == 'ARP,') { /*console.log(packet);*/ }
-        else { /*console.log(packet);*/ }
+        else if (packet[1] == 'ARP,') { /*log(packet);*/ }
+        else { /*log(packet);*/ }
   
         if (packetsQueue[0].length >= packetsLimit) {
           flushPackets();
@@ -104,16 +103,14 @@ function flushBulk() {
 }
 
 function elasticBulk(bulk) {
-  metrics.startTime('bulk_es_ms_total');
+  m.startTime('bulk_es_ms_total');
   elastic.bulk({ body: bulk }, (err, res) => {
-    metrics.endTime('bulk_es_ms_total');
-    metrics.set('bulk_queue_length', bulkQueue.length);
-    if (err) { console.log(err); bulkQueue.push(bulk); }
-    else {
-      //console.log(res);
+    m.endTime('bulk_es_ms_total');
+    m.set('bulk_queue_length', bulkQueue.length);
 
+    if (err) { log(err); bulkQueue.push(bulk); }
+    else { //log(res);
       if (bulkQueue.length) {
-        //console.log('bulkQueue.length:', bulkQueue.length);
         elasticBulk(bulkQueue.shift());
       }
       else {
