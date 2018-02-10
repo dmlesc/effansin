@@ -1,7 +1,0 @@
----
-# file: logstash-role.yml
-
-- hosts: logstash
-  become: true
-  roles:
-    - logstash

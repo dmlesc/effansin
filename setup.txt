@@ -1,41 +1,33 @@
 =======
- Setup
+ ctrl0
 =======
-
-
-
-=========
- ansible
-=========
 
 apt install software-properties-common
 apt-add-repository ppa:ansible/ansible
 apt update
 apt install ansible
+reboot
 
-Key
-  cd ~/.ssh
-  ssh-keygen
-  chmod 400 id_*
+nano /etc/hosts
+  X.X.X.X   fnsn0
 
-Local
-  ssh user@host
-  sudo visudo
-    user ALL=(ALL) NOPASSWD: ALL
-  sudo su
-  apt install python2.7
-  ln -s /usr/bin/python2.7 /usr/bin/python
-
-Remote
-  ssh-copy-id user@host
-
+cd ~/.ssh
+ssh-keygen
+chmod 400 id_*
+ssh-copy-id user@fnsn0
 ssh-agent bash
 ssh-add ~/.ssh/id_...
+ssh fnsn0
 
+=======
+ fnsn0
+=======
 
-=====
- ZFS
-=====
+sudo visudo
+  user ALL=(ALL) NOPASSWD: ALL
+sudo su
+apt install python2.7
+ln -s /usr/bin/python2.7 /usr/bin/python
 
 fdisk -l |grep dev
 wipefs -af /dev/sda
@@ -44,94 +36,59 @@ apt install zfsutils-linux
 zpool create -f vol0 /dev/disk/by-id/ata-...
 zfs set compression=lz4 vol0
 zfs create vol0/opt
-zfs set mountpoint=/opt vol0/opt
-
-zpool status
-zpool list
-zfs list
-zfs get compression vol0
-zfs get compressratio
-zpool iostat vol0
-
-df -h
-
-=========
- grafana
-=========
-
-http://fnsn0:3000/login
-  admin > Profile > Change Password
-  Add data source
-    Config
-      Name: prometheus
-      Type: Prometheus
-      Url: http://localhost:9090
-      Access: proxy
-    Dashboards
-      Prometheus Stats  >  Import
-    
-===============
- elasticsearch
-=============== 
-
+zfs create vol0/prom_data
 zfs create vol0/es_data
-chown elasticsearch:elasticsearch /vol0/es_data/
 
 nano /etc/sysctl.conf
   vm.max_map_count=262144
 
-curl http://fnsn0:9200
+apt install bridge-utils
+cd /etc/network
+mv interfaces interfaces.bak
+nano interfaces
+  source /etc/network/interfaces.d/*
 
-curl -XPUT 'http://fnsn0:9200/.kibana/_settings?pretty' -H 'Content-Type: application/json' -d'
-{
-  "index" : {
-    "number_of_replicas" : 0
-  }
-}'
+  auto lo
+  iface lo inet loopback
 
+  auto br0
+  iface br0 inet dhcp
+  bridge_ports ens32 ens33 ens34 ens35
+  bridge_stp off
+  bridge_fd 0
+  bridge_maxwait 0
 
-http://fnsn0:9200/_cat/indices?v
+reboot
 
-curl -XDELETE 'http://fnsn0:9200/syslog-*?pretty'
-curl -XDELETE 'http://fnsn0:9200/tcpdump-*?pretty'
+=======
+ ctrl0
+=======
 
-curl -XGET 'http://fnsn0:9200/_template?pretty' 
+cd ~
+mkdir git
+cd git
+git clone https://github.com/dmlesc/effansin.git
+cd effansin/ansible
 
-curl -XPUT 'http://fnsn0:9200/_template/syslog?pretty' -H 'Content-Type: application/json' -d'
-{
-  "template" : "syslog-*",
-  "settings" : {
-    "number_of_shards" : 1,
-    "number_of_replicas" : 0
-  },
-  "mappings": {
-    "doc": {
-      "properties": {
-        "host": { "type": "keyword" },
-        "lvl": { "type": "keyword" },
-        "method": { "type": "keyword" },
-        "msg": { "type": "text" },
-        "orgId": { "type": "integer" },
-        "path": { "type": "text" },
-        "pid": { "type": "integer" },
-        "program": { "type": "keyword" },
-        "referer": { "type": "text" },
-        "remote_addr": { "type": "keyword" },
-        "size": { "type": "integer" },
-        "status": { "type": "integer" },
-        "syslog_message": { "type": "text" },
-        "time_ms": { "type": "integer" },
-        "user_agent": { "type": "keyword" },
-        "uname": { "type": "keyword" },
-        "userId": { "type": "integer" },
-        "caller": { "type": "text" },
-        "component": { "type": "text" },
-        "count": { "type": "integer" }
-      }
-    }
-  }
-}
-'
+ansible-playbook -i env-local/ common.yml
+ansible-playbook -i env-local/ prometheus-role.yml
+ansible-playbook -i env-local/ grafana-role.yml
+ansible-playbook -i env-local/ elasticsearch-role.yml
+
+=======
+ fnsn0
+=======
+
+ssh fnsn0
+sudo su
+chown elasticsearch:elasticsearch /vol0/es_data/
+service elasticsearch restart
+exit
+exit
+
+=======
+ ctrl0
+=======
 
 curl -XPUT 'http://fnsn0:9200/_template/tcpdump?pretty' -H 'Content-Type: application/json' -d'
 {
@@ -158,26 +115,67 @@ curl -XPUT 'http://fnsn0:9200/_template/tcpdump?pretty' -H 'Content-Type: applic
 }
 '
 
-========
- kibana
-========
+ansible-playbook -i env-local/ kibana-role.yml
+ansible-playbook -i env-local/ nodejs-role.yml
+ansible-playbook -i env-local/ --limit=fnsn0 --tags "install" tcpdump_exporter-role.yml
+
 
 http://fnsn0:5601
+  Set up index patterns
+    tcpdump-*
+    timestamp
+  Management > Saved Objects
+    Visualizations
+      Import
+        effansin/ansible/roles/kibana/files/viz.json
+    Dashboards
+      Import
+        effansin/ansible/roles/kibana/files/dash.json
+  Advanced Settings
+    dashboard:defaultDarkTheme  -->  true
 
 
+http://fnsn0:3000/login
+  admin > Profile > Change Password
+  Add data source
+    Name: prometheus
+    Type: Prometheus
+    Url: http://localhost:9090
+    Access: proxy
 
-==================
- tcpdump_exporter
-==================
+    Name: elasticsearch
+    Type: Elasticsearch
+    Url: http://localhost:9200
+    Access: proxy
+    Index name: [tcpdump-]YYYY.MM
+    Pattern: Monthly
+    Time field name: timestamp
+    Version: 5.x
+    
+  Dashboards
+    Import all from: /effansin/ansible/roles/grafana/files/dashboards
 
-ens32/br0 = IN
-ens33 = pi1
-ens34 = dml0
-end35 = blu-ray
+    
+=========
+ Helpful
+=========
 
+http://fnsn0:9200/_cat/indices?v
 
-tcpdump -D
-tcpdump -i ens3
+curl -XDELETE 'http://fnsn0:9200/syslog-*?pretty'
+curl -XDELETE 'http://fnsn0:9200/tcpdump-*?pretty'
+
+curl -XGET 'http://fnsn0:9200/_template?pretty'
+
+curl -XPUT 'http://localhost:9200/.kibana/_settings?pretty' -H 'Content-Type: application/json' -d'
+{
+  "index" : {
+    "number_of_replicas" : 0
+  }
+}'
+
+ansible-playbook -i env-local/ --limit=ctrl0 tcpdump_exporter-role.yml
+ansible-playbook -i env-local/ --limit=fnsn0 --skip-tags "install, tar" tcpdump_exporter-role.yml
 
 ps f -g <PID>
   PID TTY      STAT   TIME COMMAND
@@ -186,12 +184,3 @@ ps f -g <PID>
  2860 ?        S      0:00  \_ tcpdump -i ens33 -l -s 75
  2861 ?        S      0:00  \_ tcpdump -i ens34 -l -s 75
  2862 ?        S      0:00  \_ tcpdump -i ens35 -l -s 75
-
-ansible-playbook -i env-local/ --limit=ctrl0 tcpdump_exporter-role.yml
-
-ansible-playbook -i env-local/ --limit=fnsn0 --skip-tags "install" tcpdump_exporter-role.yml
-
-
-{"find": "fields", "type": "keyword"}
-{"find": "terms", "field": "nic", "size": 4}
-

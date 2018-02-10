@@ -2,6 +2,4 @@
  Tasks
 =======
 
-reinstall from scratch
-documentation
-
+README.md
