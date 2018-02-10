@@ -9,10 +9,18 @@
   tags:
     tar
 
+- name: create /opt/tcpdump_exporter directory
+  file:
+    path: /opt/tcpdump_exporter
+    state: directory
+    mode: 0775
+  tags:
+    install
+
 - name: extract tcpdump_exporter archive
   unarchive:
     src: tcpdump_exporter.tgz
-    dest: /opt/
+    dest: /opt/tcpdump_exporter
     owner: root
     group: root
   tags:

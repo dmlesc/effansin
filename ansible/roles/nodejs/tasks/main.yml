@@ -19,7 +19,7 @@
 
 - name: add deb-src nodesource repository
   apt_repository:
-    repo: deb-src https://deb.nodesource.com/node_9 .x xenial main
+    repo: deb-src https://deb.nodesource.com/node_9.x xenial main
     state: present
     filename: '/etc/apt/sources.list.d/nodesource.list'
 
