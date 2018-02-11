@@ -37,7 +37,7 @@ The box is setup as a network bridge/switch which means that you can connect any
 
 The setup instructions should be modified and adapted to work on any Unix-like OS that can run `tcpdump`, `Node.js`, `Prometheus`, `Elastic Stack`, and `Grafana`. Nothing is set in stone and much can be changed to whatever floats your boat.
 
-`setup.txt` assumes the user has knowledge of Ansible. It lists steps to be performed on the packet capture box under the heading `fnsn0` and steps to be performed on the Ansible control box as `ctrl0`. As such, you'll have to modify the commands and enviroment `hosts` file with the correct host name. Also, you'll have to changed the `nics` in `tcpdump_exporter.js` to the interface names on your hardware.
+`setup.txt` assumes the user has knowledge of Ansible. It lists steps to be performed on the packet capture box under the heading `fnsn0` and steps to be performed on the Ansible control box as `ctrl0`. As such, you'll have to modify the commands and enviroment `hosts` file with the correct host name. Also, you'll have to change the `nics` in `tcpdump_exporter.js` to the interface names on your hardware.
 
 ## screenshots
 
