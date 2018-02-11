@@ -1,4 +1,10 @@
 =======
+ fnsn0
+=======
+
+Standard install of Ubuntu Server 16.04 LTS with all updates
+
+=======
  ctrl0
 =======
 
@@ -41,6 +47,10 @@ zfs create vol0/es_data
 
 nano /etc/sysctl.conf
   vm.max_map_count=262144
+
+cd /etc
+mv services services.bak
+touch services  #ports can be deceiving :)
 
 apt install bridge-utils
 cd /etc/network
