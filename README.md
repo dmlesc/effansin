@@ -40,3 +40,11 @@ The setup instructions should be modified and adapted to work on any Unix-like O
 `setup.txt` assumes the user has knowledge of Ansible. It lists steps to be performed on the packet capture box under the heading `fnsn0` and steps to be performed on the Ansible control box as `ctrl0`. As such, you'll have to modify the commands and enviroment `hosts` file with the correct host name. Also, you'll have to changed the `nics` in `tcpdump_exporter.js` to the interface names on your hardware.
 
 ## screenshots
+
+![Kibana - Tables](https://raw.githubusercontent.com/dmlesc/effansin/master/screens/kibana1.png)
+
+![Kibana - Lines](https://raw.githubusercontent.com/dmlesc/effansin/master/screens/kibana2.png)
+
+![Grafana - Host traffic](https://raw.githubusercontent.com/dmlesc/effansin/master/screens/grafana1.png)
+
+![Grafana - App metrics](https://raw.githubusercontent.com/dmlesc/effansin/master/screens/grafana2.png)
